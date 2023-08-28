@@ -15,7 +15,13 @@ import { ParametricsInterface } from './scripts/ParametricsInterface.js';
 
 import * as floor_textures_json from './floor_textures.json';
 import * as wall_textures_json from './wall_textures.json';
-import * as default_room_json from './design.json';
+// import * as default_room_json from './design.json';
+import * as default_room_json from './LShape.json';
+
+const MasterNodeURL = "http://localhost:8000";
+const uploadInitImageURL = MasterNodeURL + "/upload-image";
+const uploadInitPoints = MasterNodeURL + "/upload-points";
+
 
 const fps = FPS.of({x: 0, y: 0});
 fps.start();
@@ -34,7 +40,174 @@ let wall_texture_keys = Object.keys(wall_textures);
 
 let blueprint3d = null;
 
+// AI Arstist stuff
+async function setData(data, x_range, y_range, x_min, y_min) {
+    const models = [];
+    const results_array = data['result'][0]['result'];	
+    console.log(results_array);
+    for (let index = 0; index < results_array.length; index++) {
+        const obj = results_array[index];
+        // convert degrees to radians
+        const orientation = obj['orientation'];
+        const path = obj['path'];
+        const loc = convertImagePixelsToViewCoo(obj['location'], x_range, y_range, x_min, y_min, 510);
+        models.push({ path: path, position: [loc[0], 0, loc[1]] , rot: orientation });                
+    }
+    for (let index = 0; index < models.length; index++) {
+        const model = models[index];
+        await spawnModelInViewer(model.path, model.position, model.rot);
+    }
+    console.log(models);
+};
+
+function convertPointsToImageCoo(points, image_size) {
+    // calculate the bounding box of the points
+    // make all points relative to the bounding box and positive
+    // scale all points to the size of the image
+    // return the points
+    let x_min = 1000;
+    let y_min = 1000;
+    let x_max = -1000;
+    let y_max = -1000;
+    for (let i = 0; i < points.length; i++) {
+        let point = points[i];
+        if (point.x < x_min) {
+            x_min = point.x;
+        }
+        if (point.y < y_min) {
+            y_min = point.y;
+        }
+        if (point.x > x_max) {
+            x_max = point.x;
+        }
+        if (point.y > y_max) {
+            y_max = point.y;
+        }
+    }
+    let x_range = x_max - x_min;
+    let y_range = y_max - y_min;
+    let x_scale = image_size / x_range;
+    let y_scale = image_size / y_range;
+    let new_points = [];
+    for (let i = 0; i < points.length; i++) {
+        let point = points[i];
+        let new_point = {
+            x: (point.x - x_min) * x_scale,
+            y: Math.abs(((point.y - y_min) * y_scale) - image_size)
+        };
+        new_points.push(new_point);
+    }
+    return [new_points, x_range, y_range, x_min, y_min];
+}
+
+function convertImagePixelsToViewCoo(point, x_range, y_range, x_min, y_min, image_size) {
+    // invert this equation: x = ((point.x - x_min) * image_size/x_range)
+    // to get the x value
+    // invert this equation: y = ((point.y - y_min) * image_size/y_range)
+    // to get the y value
+    console.log(point);
+    let x = (point[0]/ image_size) * x_range + x_min;
+    let y = (point[1]/ image_size) * y_range + y_min;
+    console.log(x, y);
+    return [x, y];
+}
+
+async function spawnModelInViewer(path, position, rot_z) {
+    let metadata = {
+        itemType: 1,
+        modelURL: path,
+        position: position,
+        rotation: [0, 0, 0],
+        innerRotation: [0 , rot_z , 0],
+        scale: [
+            1,
+            1,
+            1
+        ],
+        size: [
+            138,
+            266,
+            137
+        ],
+        mesh: [
+            "Table_Tennis_Table"
+        ],
+        fixed: true,
+        isParametric: false,
+    };
+    blueprint3d.model.addItemByMetaData(metadata);
+}
+
+const progress = document.createElement('progress')
+progress.innerHTML= 'class="progress is-large is-info" max="100"';
+const element = document.getElementById("main_tile_viewer");
+element.appendChild(progress);
+progress.style.visibility = "hidden";
+
 let app_parent = document.getElementById('bp3d-js-app');
+let send_points = document.getElementById('send-points');
+send_points.onclick = function() {
+    // points is an array of dictionaries in form of { x1: x1, y1: y1, x2: x2, y2: y2, type: "wall" }
+    let segments = [];
+    let points = [];
+    let walls2d = blueprint3d.floorplanner.__walls2d;
+    for (let i = 0; i < walls2d.length; i++) {
+        let wall = walls2d[i].__wall;
+        let wall_segment = {
+            x1: wall.getStartX(),
+            y1: wall.getStartY(),
+            x2: wall.getEndX(),
+            y2: wall.getEndY(),
+            type: "wall"
+        };
+        points.push({ x: wall_segment.x1, y: wall_segment.y1 });
+        points.push({ x: wall_segment.x2, y: wall_segment.y2 });
+        console.log(wall_segment);
+        segments.push(wall_segment);
+    }
+    console.log(points);
+    result = convertPointsToImageCoo(points, 512);
+    new_points = result[0];
+    x_range = result[1];
+    y_range = result[2];
+    x_min = result[3];
+    y_min = result[4];
+
+    // replace the points in the segments with the new points
+    for (let i = 0; i < segments.length; i++) {
+        let segment = segments[i];
+        segment.x1 = new_points[i * 2].x;
+        segment.y1 = new_points[i * 2].y;
+        segment.x2 = new_points[i * 2 + 1].x;
+        segment.y2 = new_points[i * 2 + 1].y;
+    }
+    console.log('segments after', segments);
+
+    blueprint3d.hideViewers();
+    blueprint3d.showLoadingScreen();
+    
+    // Send post http request to masternode
+    // Send the POST request to the FastAPI endpoint
+    fetch(uploadInitPoints, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            data: segments,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response:', data);
+            setData(data, x_range, y_range, x_min, y_min);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    blueprint3d.switchView();
+};
+
 
 let configurationHelper = null;
 let floorplanningHelper = null;
@@ -362,7 +535,7 @@ blueprint3d.floorplanner.addFloorplanListener(EVENT_NOTHING_2D_SELECTED, functio
     settingsViewer2d.hideControl('Delete');
 });
 blueprint3d.floorplanner.addFloorplanListener(EVENT_CORNER_2D_CLICKED, function(evt) {
-    settingsSelectedCorner.show();
+    // settingsSelectedCorner.show();
     settingsSelectedWall.hide();
     settingsSelectedRoom.hide();
     settingsViewer2d.showControl('Delete');
@@ -370,7 +543,7 @@ blueprint3d.floorplanner.addFloorplanListener(EVENT_CORNER_2D_CLICKED, function(
 });
 blueprint3d.floorplanner.addFloorplanListener(EVENT_WALL_2D_CLICKED, function(evt) {
     settingsSelectedCorner.hide();
-    settingsSelectedWall.show();
+    // settingsSelectedWall.show();
     settingsSelectedRoom.hide();
     settingsViewer2d.showControl('Delete');
     settingsSelectedWall.setValue('wallThickness', Dimensioning.cmToMeasureRaw(evt.item.thickness));
@@ -378,7 +551,7 @@ blueprint3d.floorplanner.addFloorplanListener(EVENT_WALL_2D_CLICKED, function(ev
 blueprint3d.floorplanner.addFloorplanListener(EVENT_ROOM_2D_CLICKED, function(evt) {
     settingsSelectedCorner.hide();
     settingsSelectedWall.hide();
-    settingsSelectedRoom.show();
+    // settingsSelectedRoom.show();
     settingsSelectedRoom.setValue('roomName', evt.item.name);
 });
 
@@ -435,6 +608,7 @@ blueprint3d.model.loadSerialized(default_room);
 
 
 if (!opts.widget) {
+
     uxInterface = QuickSettings.create(0, 0, 'BlueprintJS', app_parent);
 
     settingsViewer2d = QuickSettings.create(0, 0, 'Viewer 2D', app_parent);
@@ -471,8 +645,8 @@ if (!opts.widget) {
     settingsViewer2d.bindBoolean('itemStatistics', configurationHelper.itemStatistics, configurationHelper);
     settingsViewer2d.bindRange('snapTolerance', 1, 200, configurationHelper.snapTolerance, 1, configurationHelper);
     settingsViewer2d.bindRange('gridSpacing', 10, 200, configurationHelper.gridSpacing, 1, configurationHelper);
-    settingsViewer2d.bindNumber('boundsX', 1, 200, configurationHelper.boundsX, 1, configurationHelper);
-    settingsViewer2d.bindNumber('boundsY', 1, 200, configurationHelper.boundsY, 1, configurationHelper);
+    settingsViewer2d.bindNumber('boundsX', 1, 512, configurationHelper.boundsX, 1, configurationHelper);
+    settingsViewer2d.bindNumber('boundsY', 1, 512, configurationHelper.boundsY, 1, configurationHelper);
 
     settingsSelectedCorner.bindRange('cornerElevation', 1, 500, floorplanningHelper.cornerElevation, 1, floorplanningHelper);
     settingsSelectedWall.bindRange('wallThickness', 0.2, 1, floorplanningHelper.wallThickness, 0.01, floorplanningHelper);
@@ -502,6 +676,7 @@ if (!opts.widget) {
 
     uxInterface.setWidth(panelWidths);
     uxInterface.setHeight(uxInterfaceHeight);
+    uxInterface.hide();
 
 
     settingsViewer2d.hideControl('Delete');
@@ -520,6 +695,7 @@ if (!opts.widget) {
     settingsViewer3d.setPosition(app_parent.clientWidth - panelWidths, startY + uxInterfaceHeight);
 
 
+    settingsViewer2d.hide();
     settingsSelectedCorner.hide();
     settingsSelectedWall.hide();
     settingsSelectedRoom.hide();
