@@ -1,3 +1,5 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+
 html {
     overflow: hidden;
     height: 100%;
@@ -6,19 +8,57 @@ html {
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     height: 100%;
+    background: #efefef;
 }
-
 div {
     margin: 0;
     padding: 0;
 }
+#right_tile_div {
+  align-items: center!important;
+}
 
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #4fb182; /* Blue */
+    border-radius: 50%;
+    width: 512px;
+    height: 512px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
-/* #bp3d-js-app {
+.tile {
+    height: 100%;
+}
+.next_button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    color: #7f7b7b;
+    padding: 10px;
+    font-family: 'Indie Flower';
+    text-align: center;
+}
+
+#bp3d-js-app {
+    height: 80%;
+    width: 80%;
     overflow: hidden;
-} */
+    position: fixed;
+}
 
 #bp3djs-viewer2d,
 #bp3djs-viewer3d {

@@ -21,6 +21,9 @@
         "url": "https://github.com/aalavandhaann/blueprint-js/issues"
     },
     "dependencies": {
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.14.6",
         "@thi.ng/geom-hull": "0.0.27",
         "alpha-shape": "^1.0.0",
         "bezier-js": "^2.4.0",
@@ -48,6 +51,8 @@
         "buffer": "^6.0.3",
         "parcel": "^2.6.2",
         "process": "^0.11.10",
-        "querystring-es3": "^0.2.1"
+        "punycode": "^1.4.1",
+        "querystring-es3": "^0.2.1",
+        "stream-browserify": "^3.0.0"
     }
 }

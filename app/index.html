@@ -3,14 +3,79 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Indie Flower" rel="stylesheet">
+
     <title>Blueprint JS - Floorplan</title>
 </head>
 
 <body>
-    <div id="bp3d-js-app">
-        <div id="bp3djs-viewer2d"></div>
-        <div id="bp3djs-viewer3d"></div>
+    <div class="tile">
+        <div class="tile is-1 is-parent" id="left_tile">
+            <div class="tile is-child">
+                <article class="tile is-child notification is-success">
+                    <div class="content">
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="tile is-parent" id="main_tile">
+            <div class="tile is-child">
+                <article class="tile is-child">
+                    <div class="content">
+                        <div id="title">
+                            <h1 class="title">
+                                Blueprint JS - Floorplan
+                            </h1>
+                            <p class="subtitle">
+                                Drawing a Bedroom floorplan
+                            </p>
+                        </div>
+                        <div class="block" id="main_tile_viewer">
+                            <div id="bp3d-js-app">
+                                <div id="bp3djs-viewer2d"></div>
+                                <div id="bp3djs-viewer3d"></div>
+                            </div>
+                            <ol>
+                                <li><button class="button is-primary" id="walls-button">Draw walls</button></li>
+                                <li><button class="button is-primary" id="doors-button">Draw doors</button></li>
+                                <li><button class="button is-primary" id="windows-button">Draw windows</button></li>
+                                <li><button class="button is-info" id="reset-button">Reset</button></li>
+                            </ol>
+                            <div class="loader" id="loader" style="visibility: hidden"></div>
+                        </div>
+                </div></article>
+            </div>
+        </div>
+        <div class="tile is-1 is-parent" id="right_tile">
+            <div class="tile is-child is-primary" id="send-points">
+                <article class="tile is-child notification is-success">
+                    <div id="right_tile_div" class="content">
+                        <div class="block">
+                            <div class="button is-primary" id="send-points" style="position: absolute; top: 50%; transform: translateY(-50%)">Next</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
     </div>
+    <!-- <div class="container">
+            <div class="content" id="title">
+                <h1 class="title">
+                    Blueprint JS - Floorplan
+                </h1>
+                <p class="subtitle">
+                    Drawing a Bedroom floorplan
+                </p>
+            </div>
+            <div class="block">
+            <div id="bp3d-js-app">
+                <div id="bp3djs-viewer2d"></div>
+                <div id="bp3djs-viewer3d"></div>
+            </div>
+        </div> -->
+
+    
     <link href="/index.cf673764.css" rel="stylesheet">
     <script src="/index.0af55655.js" defer=""></script>
 </body>

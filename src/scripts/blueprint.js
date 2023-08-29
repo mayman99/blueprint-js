@@ -69,6 +69,24 @@ class BlueprintJS {
         this.view_now = 3;
         this.switchView();
     }
+    hideViewers() {
+        if (this.options.widget) {
+            return;
+        }
+        document.getElementById(this.options.viewer2d.id).style.visibility = "hidden";//
+        document.getElementById(this.options.viewer3d.id).style.visibility = "hidden";
+        this.roomplanner.enabled = false;
+    }
+
+    showLoadingScreen() {
+        const y_2 = document.getElementById("loader");
+        y_2.style.visibility = "visible";
+    }
+
+    hideLoadingScreen() {
+        const y_2 = document.getElementById("loader");
+        y_2.style.visibility = "hidden";
+    }
 
     switchView() {
         if (this.options.widget) {

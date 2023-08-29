@@ -138,12 +138,6 @@ async function spawnModelInViewer(path, position, rot_z) {
     blueprint3d.model.addItemByMetaData(metadata);
 }
 
-const progress = document.createElement('progress')
-progress.innerHTML= 'class="progress is-large is-info" max="100"';
-const element = document.getElementById("main_tile_viewer");
-element.appendChild(progress);
-progress.style.visibility = "hidden";
-
 let app_parent = document.getElementById('bp3d-js-app');
 let send_points = document.getElementById('send-points');
 send_points.onclick = function() {
@@ -183,7 +177,7 @@ send_points.onclick = function() {
     }
     console.log('segments after', segments);
 
-    blueprint3d.hideViewers();
+    // blueprint3d.hideViewers();
     blueprint3d.showLoadingScreen();
     
     // Send post http request to masternode
@@ -201,13 +195,13 @@ send_points.onclick = function() {
         .then(data => {
             console.log('Response:', data);
             setData(data, x_range, y_range, x_min, y_min);
+            blueprint3d.hideLoadingScreen();
         })
         .catch(error => {
             console.error('Error:', error);
         });
     blueprint3d.switchView();
 };
-
 
 let configurationHelper = null;
 let floorplanningHelper = null;
