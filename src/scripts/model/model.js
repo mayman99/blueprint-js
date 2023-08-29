@@ -115,6 +115,15 @@ export class Model extends EventDispatcher {
         this.__floorItems = [];
     }
 
+    /** Removes all floor items. */
+    clearFloorItems() {
+        let scope = this;
+        this.__floorItems.forEach((item) => {
+            scope.removeItem(item, false);
+        });
+        this.__floorItems = [];
+    }
+
     removeItemByMetaData(item) {
         this.removeItem(item.itemModel);
     }

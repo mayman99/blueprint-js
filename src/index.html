@@ -15,6 +15,11 @@
             <div class="tile is-child">
                 <article class="tile is-child notification is-success">
                     <div class="content">
+                        <div class="block">
+                            <div class="button is-info" id="back" style="  position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);">Back</div>
+                        </div>
                     </div>
                 </article>
             </div>
@@ -36,11 +41,16 @@
                                 <div id="bp3djs-viewer2d"></div>
                                 <div id="bp3djs-viewer3d"></div>
                             </div>
-                            <ol>
+                            <ol id="buttons_viewer_2d">
                                 <li><button class="button is-primary" id="walls-button">Draw walls</button></li>
                                 <li><button class="button is-primary" id="doors-button">Draw doors</button></li>
                                 <li><button class="button is-primary" id="windows-button">Draw windows</button></li>
                                 <li><button class="button is-info" id="reset-button">Reset</button></li>
+                            </ol>
+                            <ol id="buttons_viewer_3d">
+                                <li><button class="button is-primary" id="prev_scene">Prev Generation</button></li>
+                                <li><button class="button is-primary" id="next_scene">Next Generation</button></li>
+                                <!-- <li><button class="button is-info" id="viewer2d">Back</button></li> -->
                             </ol>
                             <div class="loader" id="loader" style="visibility:hidden;"></div>
                         </div>

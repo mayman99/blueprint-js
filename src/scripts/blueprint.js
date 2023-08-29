@@ -78,6 +78,11 @@ class BlueprintJS {
         this.roomplanner.enabled = false;
     }
 
+    hideSideTiles() {
+        document.getElementById("right_tile").style.visibility = "hidden";
+        document.getElementById("left_tile").style.visibility = "hidden";
+    }
+
     showLoadingScreen() {
         const y_2 = document.getElementById("loader");
         y_2.style.visibility = "visible";
@@ -95,11 +100,15 @@ class BlueprintJS {
         this.floorplanner.switchMode(floorplannerModes.MOVE);
         if (this.view_now === 3 && !this.options.widget) {
             this.view_now = 2;
+            document.getElementById("buttons_viewer_3d").style.visibility = "hidden";//
+            document.getElementById("buttons_viewer_2d").style.visibility = "visible";//
             document.getElementById(this.options.viewer2d.id).style.visibility = "visible";
             document.getElementById(this.options.viewer3d.id).style.visibility = "hidden";
             this.roomplanner.enabled = false;
         } else if (this.view_now === 2 && !this.options.widget) {
             this.view_now = 3;
+            document.getElementById("buttons_viewer_2d").style.visibility = "hidden";//
+            document.getElementById("buttons_viewer_3d").style.visibility = "visible";//
             document.getElementById(this.options.viewer2d.id).style.visibility = "hidden";//
             document.getElementById(this.options.viewer3d.id).style.visibility = "visible";//"hidden";//
             this.roomplanner.enabled = true;
