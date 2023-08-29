@@ -286,5 +286,113 @@
         "carbonSheet": {},
         "units": "m"
     },
-    "items": []
+    "items": [
+        {
+            "itemName": "Parametric Door",
+            "isParametric": true,
+            "baseParametricType": "DOOR",
+            "subParametricData": {
+                "type": 1,
+                "frameColor": 16711680,
+                "doorColor": 11007,
+                "doorHandleColor": 57389,
+                "glassColor": 16711680,
+                "frameWidth": 130,
+                "frameHeight": 250,
+                "frameSize": 5,
+                "frameThickness": 25,
+                "doorRatio": 0.5,
+                "openDirection": "BOTH_SIDES",
+                "handleType": "HANDLE_02"
+            },
+            "itemType": 7,
+            "position": [
+                500,
+                130,
+                250
+            ],
+            "rotation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "size": [
+                100,
+                200,
+                20
+            ],
+            "fixed": true,
+            "resizable": false,
+            "wall": "4ae6fabe-5cdc-ec3a-c858-f4537b0bd0b1,a103d9da-46bd-88c7-3710-e0323ac74352",
+            "innerRotation": [
+                0,
+                0,
+                0
+            ],
+            "wallSide": "front",
+            "wallSurfacePoint": [
+                500,
+                125,
+                250
+            ]
+        },
+        {
+            "id": "7d0b3e90-c315-e7a5-a6d9-594757d5b7e4",
+            "itemName": "Window with Curtain",
+            "itemType": 3,
+            "position": [
+                500,
+                150,
+                250
+            ],
+            "rotation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "size": [
+                136,
+                195,
+                20
+            ],
+            "fixed": true,
+            "resizable": true,
+            "modelURL": "models/InWallItems/WindowWithCurtain.glb",
+            "isParametric": false,
+            "wall": "4ae6fabe-5cdc-ec3a-c858-f4537b0bd0b1,a103d9da-46bd-88c7-3710-e0323ac74352",
+            "wallSide": "front",
+            "wallSurfacePoint": [
+                500,
+                150,
+                250
+            ],
+            "mesh": [
+                "Cube"
+            ],
+            "textures": [
+                {
+                    "name": "Cube",
+                    "texture": "",
+                    "color": "",
+                    "shininess": 10,
+                    "size": []
+                }
+            ],
+            "innerRotation": [
+                0,
+                0,
+                0
+            ]
+        },
+    ]
 }
