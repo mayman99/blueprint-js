@@ -28,6 +28,7 @@ fps.start();
 
 
 let default_room = JSON.stringify(default_room_json);
+const backend_image_size = 512;
 let startY = 0;
 let panelWidths = 200;
 let uxInterfaceHeight = 450;
@@ -147,6 +148,47 @@ let app_parent = document.getElementById('bp3d-js-app');
 let send_points = document.getElementById('send-points');
 let next_scene = document.getElementById('next_scene');
 let prev_scene = document.getElementById('prev_scene');
+let draw_3d_mode = document.getElementById('draw_3d_mode');
+let draw_2d_mode = document.getElementById('draw_2d_mode');
+let add_door_button = document.getElementById('add-door-button');
+let window_button = document.getElementById('add-window-button');
+let draw_walls_windows = document.getElementById('doors-windows-button');
+let reset_button = document.getElementById('reset-button');
+let draw_mode = document.getElementById('draw_mode');
+// let move_mode = document.getElementById('move_mode');
+
+// move_mode.onclick = function() {
+//     blueprint3d.setViewer2DModeToMove();
+// }
+
+draw_mode.onclick = function() {
+    blueprint3d.setViewer2DModeToDraw();
+}
+
+reset_button.onclick = function() {
+    blueprint3d.model.clearItems();
+    blueprint3d.model.floorplan.reset();
+}
+
+draw_walls_windows.onclick = function() {
+    blueprint3d.switchTo3D();
+}
+
+add_door_button.onclick = function() {
+    addDoorForWall();
+}
+
+window_button.onclick = function() {
+    addWindowForWall();
+}
+
+draw_3d_mode.onclick = function() {
+    blueprint3d.switchTo3D();
+}
+
+draw_2d_mode.onclick = function() {
+    blueprint3d.switchTo2D();
+}
 
 next_scene.onclick = async function() {
     if (current_scene == generated_scenes.length) {
@@ -174,10 +216,62 @@ prev_scene.onclick = async function() {
     }
 }
 
+function samplePointsOnLine(pointA, pointB, midpoint, AB_length) {
+    // Calculate vector from Point A to Point B
+    const vector_AB = [pointB.x - pointA.x, pointB.y - pointA.y];
+
+    // Calculate unit vector in the direction of vector_AB
+    const magnitude_AB = Math.sqrt(vector_AB[0] ** 2 + vector_AB[1] ** 2);
+    const unit_vector_AB = [vector_AB[0] / magnitude_AB, vector_AB[1] / magnitude_AB];
+
+    // Calculate displacement vector from midpoint to new point
+    const displacement_D1 = [AB_length / 2 * unit_vector_AB[0], AB_length / 2 * unit_vector_AB[1]];
+
+    // Calculate new points
+    const new_point1 = [midpoint.x + displacement_D1[0], midpoint.y + displacement_D1[1]];
+    const new_point2 = [midpoint.x - displacement_D1[0], midpoint.y - displacement_D1[1]];
+
+    return [new_point1, new_point2];
+}
+
 send_points.onclick = function() {
     // points is an array of dictionaries in form of { x1: x1, y1: y1, x2: x2, y2: y2, type: "wall" }
     let segments = [];
     let points = [];
+    // get a list of inwallitems and wallItems and inWallFloorItems
+    let doors = blueprint3d.model.__roomItems.filter(item => item.itemType === 7);
+    let windows = blueprint3d.model.__roomItems.filter(item => item.itemType === 3);
+    for (let i = 0; i < doors.length; i++) {
+        let door = doors[i];
+        console.log(door);
+        console.log(door.__currentWall.start._co.x, door.__currentWall.end._co.x, door.__currentWallSnapPoint.y);
+        const sampledPoints = samplePointsOnLine(door.__currentWall.start._co, door.__currentWall.end._co, door.__currentWallSnapPoint, 30);
+        let door_segment = {
+            x1: sampledPoints[0][0],
+            y1: sampledPoints[0][1],
+            x2: sampledPoints[1][0],
+            y2: sampledPoints[1][1],
+            type: "door"
+        };
+        segments.push(door_segment);
+        points.push({ x: door_segment.x1, y: door_segment.y1 });
+        points.push({ x: door_segment.x2, y: door_segment.y2 });
+    }
+    for (let i = 0; i < windows.length; i++) {
+        let window = windows[i];
+        const sampledPoints = samplePointsOnLine(window.__currentWall.start._co, window.__currentWall.end._co, window.__currentWallSnapPoint, 30);
+        let window_segment = {
+            x1: sampledPoints[0][0],
+            y1: sampledPoints[0][1],
+            x2: sampledPoints[1][0],
+            y2: sampledPoints[1][1],
+            type: "window"
+        };
+        segments.push(window_segment);
+        points.push({ x: window_segment.x1, y: window_segment.y1 });
+        points.push({ x: window_segment.x2, y: window_segment.y2 });
+    }
+
     let walls2d = blueprint3d.floorplanner.__walls2d;
     for (let i = 0; i < walls2d.length; i++) {
         let wall = walls2d[i].__wall;
@@ -188,13 +282,14 @@ send_points.onclick = function() {
             y2: wall.getEndY(),
             type: "wall"
         };
+        segments.push(wall_segment);
         points.push({ x: wall_segment.x1, y: wall_segment.y1 });
         points.push({ x: wall_segment.x2, y: wall_segment.y2 });
-        console.log(wall_segment);
-        segments.push(wall_segment);
     }
-    console.log(points);
-    result = convertPointsToImageCoo(points, 512);
+
+    console.log(segments);
+
+    result = convertPointsToImageCoo(points, backend_image_size);
     new_points = result[0];
     x_range = result[1];
     y_range = result[2];
@@ -234,8 +329,7 @@ send_points.onclick = function() {
         .catch(error => {
             console.error('Error:', error);
         });
-    blueprint3d.switchView();
-    // blueprint3d.hideSideTiles();
+    blueprint3d.switchTo3D();
 };
 
 let configurationHelper = null;
@@ -369,9 +463,11 @@ function selectDoorForWall(data) {
 }
 
 function addDoorForWall() {
-    let data = settingsSelectedWall3D.getValue('Select Door');
-    let selectedDoor = doorsData[data.value];
-    roomplanningHelper.addParametricDoorToCurrentWall(selectedDoor.type);
+    roomplanningHelper.addParametricDoorToCurrentWall(1);
+}
+
+function addWindowForWall() {
+    roomplanningHelper.addWindowToCurrentWall();
 }
 
 function switchViewer() {
@@ -381,7 +477,7 @@ function switchViewer() {
         settingsViewer3d.hide();
         settingsViewer2d.show();
 
-        settingsSelectedWall3D.hide();
+        settingsSelectedWall3D.show();
         settingsSelectedRoom3D.hide();
         if (parametricContextInterface) {
             parametricContextInterface.destroy();
@@ -585,7 +681,9 @@ blueprint3d.floorplanner.addFloorplanListener(EVENT_ROOM_2D_CLICKED, function(ev
 });
 
 blueprint3d.roomplanner.addRoomplanListener(EVENT_ITEM_SELECTED, function(evt) {
-    settingsSelectedWall3D.hide();
+    add_door_button.disabled = true;
+    window_button.disabled = true;
+    // settingsSelectedWall3D.show();
     settingsSelectedRoom3D.hide();
     let itemModel = evt.itemModel;
     if (parametricContextInterface) {
@@ -598,7 +696,11 @@ blueprint3d.roomplanner.addRoomplanListener(EVENT_ITEM_SELECTED, function(evt) {
 });
 
 blueprint3d.roomplanner.addRoomplanListener(EVENT_NO_ITEM_SELECTED, function() {
-    settingsSelectedWall3D.hide();
+    add_door_button.disabled = true;
+    window_button.disabled = true;
+    // document.getElementById("add-window-button").style.visibility = "hidden";
+    // document.getElementById("add-door-button").style.visibility = "hidden";
+    // settingsSelectedWall3D.show();
     settingsSelectedRoom3D.hide();
     if (parametricContextInterface) {
         parametricContextInterface.destroy();
@@ -606,7 +708,11 @@ blueprint3d.roomplanner.addRoomplanListener(EVENT_NO_ITEM_SELECTED, function() {
     }
 });
 blueprint3d.roomplanner.addRoomplanListener(EVENT_WALL_CLICKED, function(evt) {
-    settingsSelectedWall3D.show();
+    add_door_button.disabled = false;
+    window_button.disabled = false;
+
+    // document.getElementById("add-window-button").style.visibility = "visible";
+    // document.getElementById("add-door-button").style.visibility = "visible";
     settingsSelectedRoom3D.hide();
     if (parametricContextInterface) {
         parametricContextInterface.destroy();
@@ -614,7 +720,7 @@ blueprint3d.roomplanner.addRoomplanListener(EVENT_WALL_CLICKED, function(evt) {
     }
 });
 blueprint3d.roomplanner.addRoomplanListener(EVENT_ROOM_CLICKED, function(evt) {
-    settingsSelectedWall3D.hide();
+    // settingsSelectedWall3D.show();
     settingsSelectedRoom3D.show();
     if (parametricContextInterface) {
         parametricContextInterface.destroy();
@@ -647,6 +753,7 @@ if (!opts.widget) {
 
     settingsViewer3d = QuickSettings.create(0, 0, 'Viewer 3D', app_parent);
     settingsSelectedWall3D = QuickSettings.create(0, 0, 'Wall', app_parent);
+    settingsSelectedWall3D.setSize(200, 200);
     settingsSelectedRoom3D = QuickSettings.create(0, 0, 'Room', app_parent);
 
 
@@ -699,6 +806,7 @@ if (!opts.widget) {
     settingsSelectedWall3D.addDropDown('Select Door', doorTypes, selectDoorForWall);
     settingsSelectedWall3D.addImage('Door Preview:', doorsData[doorTypes[0]].src, null);
     settingsSelectedWall3D.addButton('Add', addDoorForWall);
+    settingsSelectedWall3D.addButton('Add Window', addWindowForWall);
 
     settingsViewer3d.addHTML('Tips:', '<p>Click and drag to rotate the room in 360\xB0</p><p>Add room items <ul><li>Add parametric doors</li><li>Other items (Coming soon)</li></ul></p><p>Drag and Place items(pink boxes and parametric doors) in the room</p><p>There are 8 different types of items <ul><li>1: FloorItem</li> <li>2: WallItem</li> <li>3: InWallItem</li> <li>7: InWallFloorItem</li> <li>8: OnFloorItem</li> <li>9: WallFloorItem</li><li>0: Item</li> <li>4: RoofItem</li></ul></p>');
 

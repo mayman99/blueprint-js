@@ -100,22 +100,48 @@ class BlueprintJS {
         this.floorplanner.switchMode(floorplannerModes.MOVE);
         if (this.view_now === 3 && !this.options.widget) {
             this.view_now = 2;
-            document.getElementById("buttons_viewer_3d").style.visibility = "hidden";//
-            document.getElementById("buttons_viewer_2d").style.visibility = "visible";//
+            // document.getElementById("buttons_viewer_3d").style.visibility = "hidden";//
+            // document.getElementById("buttons-drawing").style.visibility = "visible";//
             document.getElementById(this.options.viewer2d.id).style.visibility = "visible";
             document.getElementById(this.options.viewer3d.id).style.visibility = "hidden";
             this.roomplanner.enabled = false;
         } else if (this.view_now === 2 && !this.options.widget) {
             this.view_now = 3;
-            document.getElementById("buttons_viewer_2d").style.visibility = "hidden";//
-            document.getElementById("buttons_viewer_3d").style.visibility = "visible";//
+            // document.getElementById("buttons-drawing").style.visibility = "hidden";//
+            // document.getElementById("buttons_viewer_3d").style.visibility = "visible";//
             document.getElementById(this.options.viewer2d.id).style.visibility = "hidden";//
             document.getElementById(this.options.viewer3d.id).style.visibility = "visible";//"hidden";//
             this.roomplanner.enabled = true;
         }
     }
 
+    switchTo2D() {
+        this.view_now = 2;
+        document.getElementById("buttons-drawing-2d").style.visibility = "visible";//
+        document.getElementById("buttons-drawing-3d").style.visibility = "hidden";//
+        document.getElementById("send_points_div").style.visibility = "hidden";//
+
+        document.getElementById(this.options.viewer2d.id).style.visibility = "visible";
+        document.getElementById(this.options.viewer3d.id).style.visibility = "hidden";
+        this.roomplanner.enabled = true;
+    }
+
+    switchTo3D() {
+        this.view_now = 3;
+        document.getElementById("buttons-drawing-2d").style.visibility = "hidden";//
+        document.getElementById("buttons-drawing-3d").style.visibility = "visible";//
+        document.getElementById("send_points_div").style.visibility = "visible";//
+
+        document.getElementById(this.options.viewer2d.id).style.visibility = "hidden";//
+        document.getElementById(this.options.viewer3d.id).style.visibility = "visible";//"hidden";//
+        this.roomplanner.enabled = true;
+    }
+
     setViewer2DModeToDraw(mode) {
+        // let draw_mode = document.getElementById('draw_mode');
+        // let move_mode = document.getElementById('move_mode');
+        // draw_mode.disabled = true;
+        // move_mode.disabled = false;
         if (this.options.widget) {
             return;
         }
@@ -123,6 +149,10 @@ class BlueprintJS {
     }
 
     setViewer2DModeToMove(mode) {
+        // let draw_mode = document.getElementById('draw_mode');
+        // let move_mode = document.getElementById('move_mode');
+        // move_mode.disabled = true;
+        // draw_mode.disabled = false;
         if (this.options.widget) {
             return;
         }

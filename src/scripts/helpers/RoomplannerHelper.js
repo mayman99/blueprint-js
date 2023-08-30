@@ -56,6 +56,71 @@ export class RoomPlannerHelper {
         // this.__selectedItem = null;
     }
 
+    addWindowToCurrentWall() {
+        if (!this.__selectedEdge) {
+            return;
+        }
+
+        let itemMetaData = {
+            itemName: "Window with Curtain",
+            isParametric: true,
+            itemType: 3,
+            position: [
+                0,
+                0,
+                0
+            ],
+            rotation: [
+                0,
+                0,
+                0
+            ],
+            scale: [
+                1,
+                1,
+                1
+            ],
+            size: [
+                136,
+                195,
+                20
+            ],
+            fixed: false,
+            resizable: true,
+            modelURL: "models/wallWindow.glb",
+            isParametric: false,
+            wall: this.__selectedEdge.id,
+            wallSide: "front",
+            wallSurfacePoint: [
+                0,
+                0,
+                0
+            ],
+            "mesh": [
+                "Cube"
+            ],
+            "textures": [
+                {
+                    "name": "Cube",
+                    "texture": "",
+                    "color": "",
+                    "shininess": 10,
+                    "size": []
+                }
+            ],
+            "innerRotation": [
+                0,
+                0,
+                0
+            ]
+        };
+
+        let item = new InWallFloorItem(itemMetaData, this.__model);
+        this.__model.addItem(item);
+        // console.log(this.__selectedEdgePoint, this.__selectedEdgeNormal);
+        item.snapToWall(this.__selectedEdgePoint, this.__selectedEdge.wall, this.__selectedEdge);
+    }
+
     addParametricDoorToCurrentWall(doorType) {
         if (!this.__selectedEdge) {
             return;

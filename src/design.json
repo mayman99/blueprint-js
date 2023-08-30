@@ -419,7 +419,7 @@
             ],
             "fixed": true,
             "resizable": true,
-            "modelURL": "models/InWallItems/WindowWithCurtain.glb",
+            "modelURL": "models/wallWindow.glb",
             "isParametric": false,
             "wall": "fed350d6-a751-1f3d-f6ec-eaa27de6bd12,3bec1535-21a7-668e-5d47-229db4d136d2",
             "wallSide": "front",
