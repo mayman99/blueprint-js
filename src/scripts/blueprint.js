@@ -117,9 +117,11 @@ class BlueprintJS {
 
     switchTo2D() {
         this.view_now = 2;
-        document.getElementById("buttons-drawing-2d").style.visibility = "visible";//
-        document.getElementById("buttons-drawing-3d").style.visibility = "hidden";//
+        document.getElementById("2d_draw_buttons_list").style.visibility = "visible";//
+        document.getElementById("3d_draw_buttons_list").style.visibility = "hidden";//
         document.getElementById("send_points_div").style.visibility = "hidden";//
+
+        document.getElementById("current_subtitle").textContent = "Drawing a Bedroom floorplan";
 
         document.getElementById(this.options.viewer2d.id).style.visibility = "visible";
         document.getElementById(this.options.viewer3d.id).style.visibility = "hidden";
@@ -128,9 +130,11 @@ class BlueprintJS {
 
     switchTo3D() {
         this.view_now = 3;
-        document.getElementById("buttons-drawing-2d").style.visibility = "hidden";//
-        document.getElementById("buttons-drawing-3d").style.visibility = "visible";//
+        document.getElementById("2d_draw_buttons_list").style.visibility = "hidden";//
+        document.getElementById("3d_draw_buttons_list").style.visibility = "visible";//
         document.getElementById("send_points_div").style.visibility = "visible";//
+
+        document.getElementById("current_subtitle").textContent = "Adding doors and windowsto design";
 
         document.getElementById(this.options.viewer2d.id).style.visibility = "hidden";//
         document.getElementById(this.options.viewer3d.id).style.visibility = "visible";//"hidden";//

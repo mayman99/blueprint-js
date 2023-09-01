@@ -65,6 +65,7 @@ async function setData(data, x_range, y_range, x_min, y_min) {
         }
         generated_scenes.push(scene);
     }
+    // next_scene.click();
     for (let index = 0; index < generated_scenes[current_scene].length; index++) {
         const model = generated_scenes[current_scene][index];
         await spawnModelInViewer(model.path, model.position, model.rot);
@@ -169,7 +170,14 @@ let window_button = document.getElementById('add-window-button');
 let draw_walls_windows = document.getElementById('doors-windows-button');
 let reset_button = document.getElementById('reset-button');
 let draw_mode = document.getElementById('draw_mode');
+const _2d_draw_buttons_list = document.getElementById("2d_draw_buttons_list");
+const _3d_draw_buttons_list = document.getElementById("3d_draw_buttons_list");
+const _3d_view_buttons_list = document.getElementById("3d_view_buttons_list");
+const send_points_div = document.getElementById("send_points_div");
+const current_subtitle = document.getElementById("current_subtitle");
 // let move_mode = document.getElementById('move_mode');
+
+prev_scene.disabled = true;
 
 // move_mode.onclick = function() {
 //     blueprint3d.setViewer2DModeToMove();
@@ -180,8 +188,12 @@ draw_mode.onclick = function() {
 }
 
 reset_button.onclick = function() {
+    // TODO: reset all vars in the view
     blueprint3d.model.clearItems();
     blueprint3d.model.floorplan.reset();
+    send_points.disabled = false;
+    send_points_div.style.visibility = "visible";
+    _2d_draw_buttons_list.style.visibility = "visible";
 }
 
 draw_walls_windows.onclick = function() {
@@ -202,10 +214,13 @@ draw_3d_mode.onclick = function() {
 
 draw_2d_mode.onclick = function() {
     blueprint3d.switchTo2D();
+    send_points.disabled = false;
 }
 
 next_scene.onclick = async function() {
-    if (current_scene == generated_scenes.length) {
+    console.log(current_scene);
+    console.log(generated_scenes);
+    if (current_scene == generated_scenes.length - 1) {
         console.log('no more scenes');
         return;
     }
@@ -214,6 +229,11 @@ next_scene.onclick = async function() {
     for (let index = 0; index < generated_scenes[current_scene].length; index++) {
         const model = generated_scenes[current_scene][index];
         await spawnModelInViewer(model.path, model.position, model.rot);
+    }
+    current_subtitle.textContent = "Generated Scene " + (current_scene+1) + "/" + generated_scenes.length;
+    prev_scene.disabled = false;
+    if (current_scene == generated_scenes.length-1) {
+        next_scene.disabled = true;
     }
 }
 
@@ -227,6 +247,11 @@ prev_scene.onclick = async function() {
     for (let index = 0; index < generated_scenes[current_scene].length; index++) {
         const model = generated_scenes[current_scene][index];
         await spawnModelInViewer(model.path, model.position, model.rot);
+    }
+    current_subtitle.textContent = "Generated Scene " + (current_scene+1) + "/" + generated_scenes.length;
+    next_scene.disabled = false;
+    if (current_scene == 0) {
+        prev_scene.disabled = true;
     }
 }
 
@@ -455,7 +480,17 @@ send_points.onclick = function() {
         .then(data => {
             console.log('Response:', data);
             setData(data, x_range, y_range, x_min, y_min);
+            // hide loading splash
             blueprint3d.hideLoadingScreen();
+            // disable generate button
+            send_points.disabled = true;
+            // disable drawinging buttons lists
+            _2d_draw_buttons_list.style.visibility = "hidden";
+            _3d_draw_buttons_list.style.visibility = "hidden";
+            send_points_div.style.visibility = "hidden";
+            current_subtitle.textContent = "Generated Scene 1/" + generated_scenes.length;
+
+            _3d_view_buttons_list.style.visibility = "visible";
         })
         .catch(error => {
             console.error('Error:', error);

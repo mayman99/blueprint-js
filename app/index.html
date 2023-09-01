@@ -31,7 +31,7 @@
                             <h1 class="title">
                                 Blueprint JS - Floorplan
                             </h1>
-                            <p class="subtitle">
+                            <p class="subtitle" id="current_subtitle">
                                 Drawing a Bedroom floorplan
                             </p>
                         </div>
@@ -40,23 +40,23 @@
                                 <div id="bp3djs-viewer2d"></div>
                                 <div id="bp3djs-viewer3d"></div>
                             </div>
-                            <div class="block">
-                                <ul id="buttons-drawing-2d">
+                            <div id="2d_draw_buttons_list" class="block">
+                                <ul>
                                     <li><button class="button is-primary" id="draw_mode">Draw</button></li>
                                     <!-- <li><button class="button is-primary" id="move_mode">Move</button></li> -->
                                     <li><button class="button is-primary" id="doors-windows-button">Draw doors or windows</button></li>
                                     <li><button class="button is-info" id="reset-button">Reset</button></li>
                                 </ul>
                             </div>
-                            <div class="block">
-                                <ul id="buttons-drawing-3d" style="visibility: hidden">
+                            <div class="block" id="3d_draw_buttons_list" style="visibility: hidden">
+                                <ul>
                                     <li><button class="button is-primary" id="draw_2d_mode">Draw walls</button></li>
                                     <li><button class="button is-primary" id="add-window-button">Add a window</button></li>
                                     <li><button class="button is-primary" id="add-door-button">Add a door</button></li>
                                     <li><button class="button is-info" id="reset-button">Reset</button></li>
                                 </ul>
                             </div>
-                            <div class="block" style="visibility: hidden" id="buttons_viewer_3d">
+                            <div class="block" style="visibility: hidden" id="3d_view_buttons_list">
                                 <ol>
                                     <li><button class="button is-primary" id="prev_scene">Prev Generation</button></li>
                                     <li><button class="button is-primary" id="next_scene">Next Generation</button></li>
