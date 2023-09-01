@@ -26,9 +26,13 @@ const uploadInitPoints = MasterNodeURL + "/upload-points";
 const fps = FPS.of({x: 0, y: 0});
 fps.start();
 
+const DEBUG = false;
 
 let default_room = JSON.stringify(default_room_json);
-const backend_image_size = 512;
+const backend_image_size = 480;
+const initial_drawing_shift = 10;
+const door_width = 50;
+const window_width = 50;
 let startY = 0;
 let panelWidths = 200;
 let uxInterfaceHeight = 450;
@@ -56,7 +60,7 @@ async function setData(data, x_range, y_range, x_min, y_min) {
             const model = models[index];
             const path = model['path'];
             const orientation = model['orientation'];
-            const loc = convertImagePixelsToViewCoo(model['location'], x_range, y_range, x_min, y_min, 510);
+            const loc = convertImagePixelsToViewCoo(model['location'], x_range, y_range, x_min, y_min, backend_image_size);
             scene.push({ path: path, position: [loc[0], 0, loc[1]] , rot: orientation });
         }
         generated_scenes.push(scene);
@@ -107,13 +111,23 @@ function convertPointsToImageCoo(points, image_size) {
     return [new_points, x_range, y_range, x_min, y_min];
 }
 
+function converPointToImageCoo(point, x_range, y_range, x_min, y_min, image_size, initial_drawing_shift=10) {
+    let x_scale = image_size / x_range;
+    let y_scale = image_size / y_range;
+    let new_point = {
+        x: (point[0] - x_min) * x_scale +initial_drawing_shift,
+        y: Math.abs(((point[1] - y_min) * y_scale) - image_size) +initial_drawing_shift
+    };
+    return new_point;
+}
+
 function convertImagePixelsToViewCoo(point, x_range, y_range, x_min, y_min, image_size) {
     // invert this equation: x = ((point.x - x_min) * image_size/x_range)
     // to get the x value
     // invert this equation: y = ((point.y - y_min) * image_size/y_range)
     // to get the y value
-    let x = (point[0]/ image_size) * x_range + x_min;
-    let y = (point[1]/ image_size) * y_range + y_min;
+    let x = (point[0]/ image_size) * x_range + x_min - initial_drawing_shift;
+    let y = (point[1]/ image_size) * y_range + y_min - initial_drawing_shift;
     console.log(x, y);
     return [x, y];
 }
@@ -234,18 +248,130 @@ function samplePointsOnLine(pointA, pointB, midpoint, AB_length) {
     return [new_point1, new_point2];
 }
 
+function findNormalPoints(x1, y1, x2, y2, length) {
+    // Calculate the direction vector between the two points
+    const directionX = x2 - x1;
+    const directionY = y2 - y1;
+    
+    // Calculate the magnitude of the direction vector
+    const magnitude = Math.sqrt(directionX * directionX + directionY * directionY);
+    
+    // Calculate the normalized direction vector
+    const normalizedDirectionX = directionX / magnitude;
+    const normalizedDirectionY = directionY / magnitude;
+    
+    // Calculate the normal vector components
+    const normalX = -normalizedDirectionY;
+    const normalY = normalizedDirectionX;
+    
+    // Calculate the displacement vector along the normal
+    const displacementX = normalX * length;
+    const displacementY = normalY * length;
+    
+    // Calculate the normal points
+    const normalPoint1 = [Math.trunc(x1 + displacementX), Math.trunc(y1 + displacementY) ];
+    const normalPoint2 = [Math.trunc(x1 - displacementX), Math.trunc(y1 - displacementY) ];
+    const normalPoint3 = [Math.trunc(x2 + displacementX), Math.trunc(y2 + displacementY) ];
+    const normalPoint4 = [Math.trunc(x2 - displacementX), Math.trunc(y2 - displacementY) ];
+
+    return [normalPoint1, normalPoint2, normalPoint4, normalPoint3];
+}
+
+function findParallelPoints(x1, y1, x2, y2, length) {
+    // Calculate the direction vector between the two points
+    const directionX = x2 - x1;
+    const directionY = y2 - y1;
+
+    let midPoint = [(x1 + x2) / 2, (y1 + y2) / 2];
+    
+    // Calculate the magnitude of the direction vector
+    const magnitude = Math.sqrt(directionX * directionX + directionY * directionY);
+    
+    // Calculate the normalized direction vector
+    const normalizedDirectionX = directionX / magnitude;
+    const normalizedDirectionY = directionY / magnitude;
+    
+    // Calculate the displacement vector along the normal
+    const displacementX = normalizedDirectionX * length;
+    const displacementY = normalizedDirectionY * length;
+    
+    // Calculate the normal points
+    const normalPoint1 = [Math.trunc(midPoint[0] + displacementX), Math.trunc(midPoint[1] + displacementY) ];
+    const normalPoint2 = [Math.trunc(midPoint[0] - displacementX), Math.trunc(midPoint[1] - displacementY) ];
+
+    return [normalPoint1, normalPoint2];
+}
+
+// Example usage
+const x1 = 450, y1 = 50;
+const x2 = 450, y2 = 450;
+const normalLength = 10;
+const normalPoints = findNormalPoints(x1, y1, x2, y2, normalLength);
+console.log("Normal Points:", normalPoints);
+
+
+// Example usage
+// const symRectanglePoints = findSymmetricRectanglePoints(pointA, pointB, 10);
+// console.log("symRectanglePoints Points:", symRectanglePoints);
+
 send_points.onclick = function() {
     // points is an array of dictionaries in form of { x1: x1, y1: y1, x2: x2, y2: y2, type: "wall" }
     let segments = [];
+    let wall_segments = [];
+    let segments_rects = [];
     let points = [];
+
     // get a list of inwallitems and wallItems and inWallFloorItems
+    let walls2d = blueprint3d.floorplanner.__walls2d;
     let doors = blueprint3d.model.__roomItems.filter(item => item.itemType === 7);
     let windows = blueprint3d.model.__roomItems.filter(item => item.itemType === 3);
+
+    for (let i = 0; i < walls2d.length; i++) {
+        let wall = walls2d[i].__wall;
+        let wall_segment = {
+            x1: wall.getStartX(),
+            y1: wall.getStartY(),
+            x2: wall.getEndX(),
+            y2: wall.getEndY(),
+            type: "wall"
+        };
+        wall_segments.push(wall_segment);
+        points.push({ x: wall_segment.x1, y: wall_segment.y1 });
+        points.push({ x: wall_segment.x2, y: wall_segment.y2 });
+    }
+
+    result = convertPointsToImageCoo(points, backend_image_size);
+    new_points = result[0];
+    x_range = result[1];
+    y_range = result[2];
+    x_min = result[3];
+    y_min = result[4];
+
+    // convert the points to image coordinates
+    for (let i = 0; i < wall_segments.length; i++) {
+        let segment = wall_segments[i];
+        new_point_1 = converPointToImageCoo([segment.x1, segment.y1], x_range ,y_range, x_min, y_min, backend_image_size, initial_drawing_shift);
+        segment.x1 = Math.trunc(new_point_1.x);
+        segment.y1 = Math.trunc(new_point_1.y);
+
+        new_point_2 = converPointToImageCoo([segment.x2, segment.y2], x_range ,y_range, x_min, y_min, backend_image_size, initial_drawing_shift);
+        segment.x2 = Math.trunc(new_point_2.x);
+        segment.y2 = Math.trunc(new_point_2.y);
+        segments.push(segment);
+    }
+
     for (let i = 0; i < doors.length; i++) {
         let door = doors[i];
         console.log(door);
-        console.log(door.__currentWall.start._co.x, door.__currentWall.end._co.x, door.__currentWallSnapPoint.y);
-        const sampledPoints = samplePointsOnLine(door.__currentWall.start._co, door.__currentWall.end._co, door.__currentWallSnapPoint, 30);
+
+        let p1 = converPointToImageCoo([door.__currentWall.start._co.x, door.__currentWall.start._co.y], x_range ,y_range, x_min, y_min, backend_image_size, initial_drawing_shift);
+        let p2 = converPointToImageCoo([door.__currentWall.end._co.x, door.__currentWall.end._co.y], x_range ,y_range, x_min, y_min, backend_image_size, initial_drawing_shift);
+        let snap_point = converPointToImageCoo([door.__position2d.x, door.__position2d.y], x_range ,y_range, x_min, y_min, backend_image_size, initial_drawing_shift); 
+        console.log(p1, p2, snap_point);
+
+        const sampledPoints = samplePointsOnLine({x: p1.x, y: p1.y}, {x: p2.x, y:p2.y}, {x: snap_point.x, y:snap_point.y}, door_width);
+        console.log(sampledPoints);
+
         let door_segment = {
             x1: sampledPoints[0][0],
             y1: sampledPoints[0][1],
@@ -257,9 +383,17 @@ send_points.onclick = function() {
         points.push({ x: door_segment.x1, y: door_segment.y1 });
         points.push({ x: door_segment.x2, y: door_segment.y2 });
     }
+
     for (let i = 0; i < windows.length; i++) {
         let window = windows[i];
-        const sampledPoints = samplePointsOnLine(window.__currentWall.start._co, window.__currentWall.end._co, window.__currentWallSnapPoint, 30);
+        console.log(window);
+        let p1 = converPointToImageCoo([window.__currentWall.start._co.x, window.__currentWall.start._co.y], x_range ,y_range, x_min, y_min, backend_image_size, initial_drawing_shift);
+        let p2 = converPointToImageCoo([window.__currentWall.end._co.x, window.__currentWall.end._co.y], x_range ,y_range, x_min, y_min, backend_image_size, initial_drawing_shift);
+        let snap_point = converPointToImageCoo([window.__position2d.x, window.__position2d.y], x_range ,y_range, x_min, y_min, backend_image_size, initial_drawing_shift); 
+        console.log(p1, p2, snap_point);
+        const sampledPoints = samplePointsOnLine({x: p1.x, y: p1.y}, {x: p2.x, y:p2.y}, {x: snap_point.x, y:snap_point.y}, window_width);
+        console.log(sampledPoints);
+
         let window_segment = {
             x1: sampledPoints[0][0],
             y1: sampledPoints[0][1],
@@ -272,39 +406,36 @@ send_points.onclick = function() {
         points.push({ x: window_segment.x2, y: window_segment.y2 });
     }
 
-    let walls2d = blueprint3d.floorplanner.__walls2d;
-    for (let i = 0; i < walls2d.length; i++) {
-        let wall = walls2d[i].__wall;
-        let wall_segment = {
-            x1: wall.getStartX(),
-            y1: wall.getStartY(),
-            x2: wall.getEndX(),
-            y2: wall.getEndY(),
-            type: "wall"
-        };
-        segments.push(wall_segment);
-        points.push({ x: wall_segment.x1, y: wall_segment.y1 });
-        points.push({ x: wall_segment.x2, y: wall_segment.y2 });
+    floor_points = []
+    if (DEBUG) {
+        // segments_rects.push({type: "wall" , points: findSegmentFromPoints([50, 50], [450, 450], 10)});
+        // segments_rects.push({type: "wall" , points: findSegmentFromPoints([50, 450], [450, 50], 10)});
+        // segments_rects.push({type: "wall" , points: findSegmentFromPoints([450, 50], [450, 450], 10)});
+        segments_rects.push({type: "wall" , points: findNormalPoints(50, 50, 450, 50, 10)});
+        segments_rects.push({type: "wall" , points: findNormalPoints(450, 50, 450, 450, 10)});
+        segments_rects.push({type: "wall" , points: findNormalPoints(50, 450, 450, 450, 10)});
+        segments_rects.push({type: "wall" , points: findNormalPoints(450, 450, 50, 450, 10)});
+        segments_rects.push({type: "wall" , points: findNormalPoints(50, 50, 50, 450, 10)});
+        segments_rects.push({type: "floor" , points: [[50, 50], [450, 50], [450, 450], [50, 450]]});
+        segments_rects.push({type: "door" , points: findNormalPoints(70, 50, 90, 50, 10)});
+        segments_rects.push({type: "window" , points: findNormalPoints(200, 50, 240, 50, 10)});
     }
-
-    console.log(segments);
-
-    result = convertPointsToImageCoo(points, backend_image_size);
-    new_points = result[0];
-    x_range = result[1];
-    y_range = result[2];
-    x_min = result[3];
-    y_min = result[4];
-
-    // replace the points in the segments with the new points
-    for (let i = 0; i < segments.length; i++) {
-        let segment = segments[i];
-        segment.x1 = new_points[i * 2].x;
-        segment.y1 = new_points[i * 2].y;
-        segment.x2 = new_points[i * 2 + 1].x;
-        segment.y2 = new_points[i * 2 + 1].y;
+    else{
+        // replace the points in the segments with the new points
+        for (let i = 0; i < segments.length; i++) {
+            let segment = segments[i];
+            if (segment.type === "wall") {
+                segments_rects.push({type: segment.type , points: findNormalPoints(segment.x1, segment.y1, segment.x2, segment.y2, 10)});
+                floor_points.push([segment.x1, segment.y1]);
+                floor_points.push([segment.x2, segment.y2]);
+            }
+            else {
+                segments_rects.push({type: segment.type , points: findNormalPoints(segment.x1, segment.y1, segment.x2, segment.y2, 10)});
+            }
+        }
+        segments_rects.push({type: "floor" , points: floor_points});
     }
-    console.log('segments after', segments);
+    console.log('segments after', segments_rects);
 
     // blueprint3d.hideViewers();
     blueprint3d.showLoadingScreen();
@@ -317,7 +448,7 @@ send_points.onclick = function() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            data: segments,
+            data: segments_rects,
         }),
     })
         .then(response => response.json())
