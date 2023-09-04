@@ -52,7 +52,6 @@ let current_scene = 0;
 // AI Arstist stuff
 async function setData(data, x_range, y_range, x_min, y_min) {
     const results = data['result'];
-    console.log(results);
     for (let index = 0; index < results.length; index++) {
         const scene = [];
         const models = results[index]['result'];
@@ -65,7 +64,11 @@ async function setData(data, x_range, y_range, x_min, y_min) {
         }
         generated_scenes.push(scene);
     }
-    // next_scene.click();
+
+    if (generated_scenes.length == 1) {
+        next_scene.disabled = true;
+    }
+
     for (let index = 0; index < generated_scenes[current_scene].length; index++) {
         const model = generated_scenes[current_scene][index];
         await spawnModelInViewer(model.path, model.position, model.rot);
@@ -117,7 +120,7 @@ function converPointToImageCoo(point, x_range, y_range, x_min, y_min, image_size
     let y_scale = image_size / y_range;
     let new_point = {
         x: (point[0] - x_min) * x_scale +initial_drawing_shift,
-        y: Math.abs(((point[1] - y_min) * y_scale) - image_size) +initial_drawing_shift
+        y: (point[1] - y_min) * y_scale +initial_drawing_shift
     };
     return new_point;
 }
@@ -134,6 +137,7 @@ function convertImagePixelsToViewCoo(point, x_range, y_range, x_min, y_min, imag
 }
 
 async function spawnModelInViewer(path, position, rot_z) {
+    console.log(path, position, rot_z);
     let metadata = {
         itemType: 1,
         modelURL: path,
