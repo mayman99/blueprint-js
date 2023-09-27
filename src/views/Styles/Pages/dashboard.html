@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <title>Your App Title</title>
+</head>
+<body>
+<div class="app-container">
+    <div class="app-content">
+      <div class="app-content-header">
+        <h1 class="app-content-headerText">Projects</h1>
+        <button class="mode-switch" title="Switch Theme">
+          <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+            <defs></defs>
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+        </button>
+        <button class="app-content-headerButton add-Project-Button">Add Project</button>
+        <div class="project-creator">
+          <h3 class="project-creator-title">Create New Project</h3>
+          <div class="project-creator-layer">
+            <div class="image-placeholder" id="image-placeholder">
+              <img src="../assets/empty.png" alt="No Image">
+              <label for="image-upload" class="image-upload-label">
+                <i class="fa fa-image"></i> Change Image
+              </label>
+              <input type="file" id="image-upload" accept="image/*" style="display: none;">
+            </div>
+            <div class="input-group project-creator-input-group">
+              <label for="category">Category:</label>
+              <input type="text" id="project-creator-category" name="category">
+            </div>
+            <div class="input-group project-creator-input-group">
+              <label for="project-name">Project Name:</label>
+              <input type="text" id="project-creator-name" name="project-name">
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-header">
+          <div class="account-info">
+            <div class="account-info-picture">
+              <img src="../assets/Ben-Robots.jpg" alt="Account">
+            </div>
+            <div class="account-info-name">Monica G.</div>
+            <button class="account-info-more">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+            </button>
+            <div class="icon-container-profile">
+              <div class="icon profileIconsLayer" id="edit-icon">
+                <span>Edit</span>
+                <i class="fa fa-pencil" id="profileIcon"></i>
+              </div>
+              <div class="icon profileIconsLayer" id="logout-icon">
+                <span>Logout</span>
+                <i class="fa fa-sign-out" id="profileIcon"></i>
+              </div>
+            </div>
+            
+          </div>
+          
+        </div>
+      </div>
+      <div class="app-content-actions">
+        <input class="search-bar" placeholder="Search..." type="text">
+        <div class="app-content-actions-wrapper">
+          <div class="filter-button-wrapper">
+            <button class="action-button filter jsFilter"><span>Filter</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+            <div class="filter-menu">
+              <label>Category</label>
+              <select>
+                <option>All Categories</option>
+                <option>Furniture</option>                     <option>Decoration</option>
+                <option>Kitchen</option>
+                <option>Bathroom</option>
+              </select>
+              <label>Status</label>
+              <div class="filter-menu-buttons">
+                <button class="filter-button reset">
+                  Reset
+                </button>
+                <button class="filter-button apply">
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="products-area-wrapper gridView">
+        <div class="products-row">
+          <button class="cell-more-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+            <div class="product-cell image">
+              <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8a2l0Y2hlbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="product">
+              <span>1st Project</span>
+            </div>
+          <div class="product-cell category"><span class="cell-label">Category:</span>Kitchen</div>
+          <div class="product-cell status-cell">
+            <span class="cell-label">Category:</span>
+            <span class="status">Kitchen</span>
+          </div>
+          <div class="icon-container">
+            <div class="icon" id="edit-icon">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <div class="icon" id="delete-icon">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+        <div class="products-row">
+          <button class="cell-more-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+            <div class="product-cell image">
+              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="product">
+              <span>2nd Project</span>
+            </div>
+          <div class="product-cell category"><span class="cell-label">Category:</span>Decoration</div>
+          <div class="product-cell status-cell">
+            <span class="cell-label">Category:</span>
+            <span class="status active">Livingroom</span>
+          </div>
+          <div class="icon-container">
+            <div class="icon" id="edit-icon">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <div class="icon" id="delete-icon">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+        <div class="products-row">
+          <button class="cell-more-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+            <div class="product-cell image">
+              <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YmVkcm9vbXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="product">
+              <span>3rd Project</span>
+            </div>
+          <div class="product-cell category"><span class="cell-label">Category:</span>Bedroom</div>
+          <div class="product-cell status-cell">
+            <span class="cell-label">Category:</span>
+            <span class="status">Bedroom</span>
+          </div>
+          <div class="icon-container">
+            <div class="icon" id="edit-icon">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <div class="icon" id="delete-icon">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+        <div class="products-row">
+          <button class="cell-more-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+            <div class="product-cell image">
+              <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8aW50ZXJpb3J8ZW58MHwwfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="product">
+              <span>4th Project</span>
+            </div>
+          <div class="product-cell category"><span class="cell-label">Category:</span>Furniture</div>
+          <div class="product-cell status-cell">
+            <span class="cell-label">Category:</span>
+            <span class="status">Livingroom</span>
+          </div>
+          <div class="icon-container">
+            <div class="icon" id="edit-icon">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <div class="icon" id="delete-icon">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+        <div class="products-row">
+          <button class="cell-more-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+            <div class="product-cell image">
+              <img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGludGVyaW9yfGVufDB8MHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="product">
+              <span>5th Project</span>
+            </div>
+          <div class="product-cell category"><span class="cell-label">Category:</span>Bathroom</div>
+          <div class="product-cell status-cell">
+            <span class="cell-label">Category:</span>
+            <span class="status">Bathroom</span>
+          </div>
+          <div class="icon-container">
+            <div class="icon" id="edit-icon">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <div class="icon" id="delete-icon">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+        <div class="products-row">
+          <button class="cell-more-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+            <div class="product-cell image">
+              <img src="https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fGludGVyaW9yfGVufDB8MHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="product">
+              <span>6th Project</span>
+            </div>
+          <div class="product-cell category"><span class="cell-label">Category:</span>Furniture</div>
+          <div class="product-cell status-cell">
+            <span class="cell-label">Category:</span>
+            <span class="status">Appartment</span>
+          </div>
+          <div class="icon-container">
+            <div class="icon" id="edit-icon">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <div class="icon" id="delete-icon">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+        <div class="products-row">
+          <button class="cell-more-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+            <div class="product-cell image">
+              <img src="https://images.unsplash.com/photo-1600494603989-9650cf6ddd3d?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTV8fGludGVyaW9yfGVufDB8MHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="product">
+              <span>7th Project</span>
+            </div>
+          <div class="product-cell category"><span class="cell-label">Category:</span>Living Room</div>
+          <div class="product-cell status-cell">
+            <span class="cell-label">Category:</span>
+            <span class="status active">Workspace</span>
+          </div>
+          <div class="icon-container">
+            <div class="icon" id="edit-icon">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <div class="icon" id="delete-icon">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+        <div class="products-row">
+          <button class="cell-more-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+            <div class="product-cell image">
+              <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Njd8fGludGVyaW9yfGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=900&q=60" alt="product">
+              <span>8th Project</span>
+            </div>
+          <div class="product-cell category"><span class="cell-label">Category:</span>Living Room</div>
+          <div class="product-cell status-cell">
+            <span class="cell-label">Category:</span>
+            <span class="status">Livingroom</span>
+          </div>
+          <div class="icon-container">
+            <div class="icon" id="edit-icon">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <div class="icon" id="delete-icon">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <link href="../dashboard.css" rel="stylesheet">
+  <script src="../js/dahboard.js" type="module"></script>
+</body>
+</html>

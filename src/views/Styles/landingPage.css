@@ -7,7 +7,7 @@ body{
   background-color: #1F1D2B;
   width: 100%;
 }
-.landing-page::before{
+/* .landing-page::before{
   content: "";
   position: absolute;
   width: 323px;
@@ -16,9 +16,9 @@ body{
   top: 138px;
   filter: blur(190px);
   background-color: #FB37ff;
-}
+} */
 
-.landing-page::after{
+/* .landing-page::after{
  content: "";
  filter: blur(160px);
  background-color: #18B2DE;
@@ -27,7 +27,7 @@ body{
  height: 123px;
  left: 0%;
  top: 180px;
-}
+} */
 
 a {
     text-decoration: none;
@@ -94,7 +94,7 @@ ul {
    font-weight: 700;
    font-size: 28px;
    color: transparent; /* Set text color to transparent */
-   background-image: linear-gradient(93.51deg, #9B51E0 2.84%, #3081ED 99.18%);
+   background-image: repeating-linear-gradient(110deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
    -webkit-background-clip: text; /* Clip the background to the text */
    background-clip: text; /* Clip the background to the text */
 }
@@ -137,10 +137,10 @@ ul {
     border-radius: 10px;
     padding: 10px 20px;
     /* margin-right: -10%; */
-    color: #FFF;
+    color: #ffffff;
     font-family: 'Poppins';
     font-size: 14px;
-    background: linear-gradient(93.51deg, #9B51E0 2.84%, #3081ED 99.18%);
+    background: repeating-linear-gradient(550deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
   }
   .navLinkss li:not(:last-child):hover {
     color: #6c63ff;
@@ -234,7 +234,7 @@ ul {
     font-size: medium;
     font-weight: bold;
     color: #FFF;
-    background: linear-gradient(93.51deg, #9B51E0 25.84%, #3081ED 99.18%);
+    background: repeating-linear-gradient(950deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
   }
 
   .landing-page .content .image img {
@@ -302,20 +302,20 @@ ul {
     background-clip: text;
     font-weight: bold;
     color: transparent;
-    background-image: linear-gradient(93.51deg, #9B51E0 2.84%, #3081ED 99.18%);
+    background-image: repeating-linear-gradient(250deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
   }
   
   .block {
     width: 200px;
     height: 3px;
-    background-color: #6c63ff;
+    background-image: repeating-linear-gradient(150deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
     /* margin: 0 auto 30px; */
   }
 
   .contact-block{
     width: 250px;
     height: 3px;
-    background-color: #6c63ff;
+    background-image: repeating-linear-gradient(150deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
   }
   
   .about-desc{
@@ -385,7 +385,7 @@ ul {
   
   .icon {
     font-size: 32px;
-    background-image: linear-gradient(93.51deg, #9B51E0 2.84%, #3081ED 99.18%);
+    background-image: repeating-linear-gradient(150deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
     -webkit-background-clip: text; /* Clip the text to the background */
     color: transparent; /* Make the text color transparent */
     margin-right: 2%;
@@ -468,7 +468,7 @@ ul {
   font-weight: 700;
   font-size: 28px;
   color: transparent;
-  background-image: linear-gradient(93.51deg, #9B51E0 2.84%, #3081ED 99.18%);
+  background-image: repeating-linear-gradient(150deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
   -webkit-background-clip: text;
   background-clip: text;
   margin-left: -5%;
@@ -491,7 +491,7 @@ ul {
 
 .icons {
   font-size: 26px;
-  background-image: linear-gradient(93.51deg, #9B51E0 2.84%, #3081ED 99.18%);
+  background-image: repeating-linear-gradient(150deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
   -webkit-background-clip: text; /* Clip the text to the background */
   color: transparent; /* Make the text color transparent */
 }
@@ -531,22 +531,6 @@ ul {
   height: 0.1px;
 }
 
-.subscribe-email {
-  text-align: center;
-  height: 1%;
-  border-bottom: 1.3px solid #c9b1f6;
-  border-radius: 7px;
-  color: #573b8a;
-}
-
-.subscribe-button {
-  height: 1%;
-  background-image: linear-gradient(93.51deg, #9B51E0 2.84%, #3081ED 99.18%);
-  font-size: small;
-  color: #c9b1f6;
-  border-bottom: 1.3px solid #c9b1f6;
-  border-radius: 3px;
-}
 
 .subscribe-form {
   margin-bottom: -5%;
@@ -563,7 +547,7 @@ ul {
   font-size: medium;
   font-weight: bold;
   color: #FFF;
-  background: linear-gradient(93.51deg, #9B51E0 25.84%, #3081ED 99.18%);
+  background-image: repeating-linear-gradient(650deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
 }
 
 .number-phone{
