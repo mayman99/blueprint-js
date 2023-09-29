@@ -1,8 +1,8 @@
+import { signUP, signIn } from "./modules/firebase.js";
 /*
 		Designed by: SELECTO
 		Original image: https://dribbble.com/shots/5311359-Diprella-Login
 */
-
 let switchCtn = document.querySelector("#switch-cnt");
 let switchC1 = document.querySelector("#switch-c1");
 let switchC2 = document.querySelector("#switch-c2");
@@ -11,6 +11,16 @@ let switchBtn = document.querySelectorAll(".switch-btn");
 let aContainer = document.querySelector("#a-container");
 let bContainer = document.querySelector("#b-container");
 let allButtons = document.querySelectorAll(".submit");
+
+var signUpEmail =  "";
+var signUpPassword = "";
+var signUpName = "";
+
+// SignUP click
+$('#signUpButton').click(function() {
+    userSignUp();
+});
+
 
 let getButtons = (e) => e.preventDefault()
 
@@ -40,3 +50,29 @@ let mainF = (e) => {
 }
 
 window.addEventListener("load", mainF);
+
+
+// SignIn and SignUp
+
+function checkSignUpInputs(name, email, password){
+    if(name != "" && email != "" && password != ""){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+function userSignUp(){
+    signUpName = $('#signUpName').val();
+    signUpEmail = $('#signUpEmail').val();
+    signUpPassword = $('#signUpPassword').val();
+    if(checkSignUpInputs(signUpName, signUpEmail, signUpPassword)){
+        signUP(signUpEmail, signUpPassword);
+    }
+    else{
+        alert("please fill in all of your Informations");
+    }
+
+}
+
