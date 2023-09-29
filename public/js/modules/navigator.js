@@ -3,4 +3,9 @@ export async function navToRegistration(){
     window.location.href = "/registration";
     
 }
+
+export async function navToDashboard(){
+    window.location.href = "/dashboard";
+    
+}
   

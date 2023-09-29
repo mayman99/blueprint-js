@@ -15,11 +15,18 @@ let allButtons = document.querySelectorAll(".submit");
 var signUpEmail =  "";
 var signUpPassword = "";
 var signUpName = "";
+var loginEmail = "";
+var loginPassword = "";
 
 // SignUP click
 $('#signUpButton').click(function() {
     userSignUp();
 });
+
+// SignIn click
+$('#logInButton').click(function() {
+    userSignIn();
+})
 
 
 let getButtons = (e) => e.preventDefault()
@@ -63,16 +70,36 @@ function checkSignUpInputs(name, email, password){
     }
 }
 
+function checkSignInInputs(email, password){
+    if(email != "" && password != ""){
+        return true
+    } 
+    else{
+        return false
+    }
+}
+
 function userSignUp(){
     signUpName = $('#signUpName').val();
     signUpEmail = $('#signUpEmail').val();
     signUpPassword = $('#signUpPassword').val();
     if(checkSignUpInputs(signUpName, signUpEmail, signUpPassword)){
-        signUP(signUpEmail, signUpPassword);
+        signUP(signUpName, signUpEmail, signUpPassword);
     }
     else{
         alert("please fill in all of your Informations");
     }
 
+}
+
+function userSignIn(){
+    loginEmail = $('#loginEmail').val();
+    loginPassword = $('#loginPassword').val();
+    if(checkSignInInputs(loginEmail, loginPassword)){
+        signIn(loginEmail, loginPassword)
+    }
+    else{
+        alert("please fill in your email and password");
+    }
 }
 

@@ -2,6 +2,8 @@ import {FBKEY, FBDOMAIN, FBPROJID, FBSTORAGEB, FBMESSAGESENDERID, FBAPPID, FBMEA
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";// Your web app's Firebase configuration
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { addUser } from "./apis.js";
+import { navToDashboard } from "./navigator.js";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: FBKEY,
@@ -18,12 +20,12 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
-export async function signUP(email, password){
+export async function signUP(name, email, password){
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
-        alert("You are signed up");
+        addUser(user.uid, user.email, [], name, "asdas.png");
+        navToDashboard();
     })
     .catch((error) => {
         const errorCode = error.code;
@@ -43,13 +45,12 @@ export async function signIn(email, password){
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
-        alert("You are signed in");
+        navToDashboard();
     })
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode + errorMessage);
-        alert("Something Went Wrong");
+        alert("Invalid Email or Password");
     })
 }
