@@ -21,7 +21,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
 export async function signUP(name, email, password){
-    createUserWithEmailAndPassword(auth, email, password)
+ await  createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const user = userCredential.user;
         addUser(user.uid, user.email, [], name, "asdas.png");
@@ -42,7 +42,7 @@ export async function signUP(name, email, password){
 }
 
 export async function signIn(email, password){
-    signInWithEmailAndPassword(auth, email, password)
+  await  signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const user = userCredential.user;
         navToDashboard();
@@ -53,4 +53,23 @@ export async function signIn(email, password){
         console.log(errorCode + errorMessage);
         alert("Invalid Email or Password");
     })
+}
+
+export async function checkUser() {
+    return new Promise((resolve, reject) => {
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                console.log("logged in");
+                resolve(true);
+            } else {
+                console.log("not logged in");
+                resolve(false);
+            }
+        });
+    });
+}
+
+export async function userSignOut(){
+    await signOut(auth);
+    console.log("logged out");
 }

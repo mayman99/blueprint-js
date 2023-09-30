@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700&subset=latin-ext');
+
+html {
+  /* position: relative; */
+  overflow-x: hidden!important;
+}
+
+* {
+  /* box-sizing: border-box; */
+}
+
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  color: #324e63;
+}
+
+.wrapper {
+  width: 100%;
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  padding: 50px 20px;
+  padding-top: 100px;
+  display: flex;
+  background-color: #1F1D2B;
+
+  @media screen and (max-width: 768px) {
+    height: auto;
+    min-height: 100vh;
+    padding-top: 100px;
+  }
+}
+
+.profile-card {
+  width: 100%;
+  min-height: 460px;
+  margin: auto;
+  box-shadow: 0px 8px 60px -10px rgba(13, 28, 39, 0.6);
+  background: #ffffff11;
+  border-radius: 12px;
+  max-width: 700px;
+  position: relative;
+}
+
+.profile-card.active .profile-card__cnt {
+  filter: blur(6px);
+}
+
+.profile-card.active .profile-card-message,
+.profile-card.active .profile-card__overlay {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: .1s;
+}
+
+.profile-card.active .profile-card-form {
+  transform: none;
+  transition-delay: .1s;
+}
+
+.profile-card__img {
+    width: 150px;
+    height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    z-index: 4;
+    box-shadow:
+      inset 0px 33px 25px 50px #ffb338,
+      inset 0 66px 15px 150px #3e2904,
+      inset 0 99px 5px 200px #ffb338;
+  
+    @media screen and (max-width: 576px) {
+      width: 120px;
+      height: 120px;
+    }
+  
+    #profile-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+  
+
+.profile-card__cnt {
+  margin-top: -35px;
+  text-align: center;
+  padding: 0 20px;
+  padding-bottom: 40px;
+  transition: all .3s;
+}
+
+.profile-card__name {
+  font-weight: bolder;
+  font-size: 26px;
+  margin-top: -8%;
+  color: transparent; /* Set text color to transparent */
+  background-image: repeating-linear-gradient(110deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
+  -webkit-background-clip: text; /* Clip the background to the text */
+  background-clip: text; /* Clip the background to the text */
+  margin-bottom: 10px;
+}
+
+
+
+
+.profile-card-ctr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+
+  @media screen and (max-width: 576px) {
+    flex-wrap: wrap;
+  }
+}
+
+.profile-card__button {
+  background: none;
+  border: none;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  margin: 15px 35px;
+  padding: 15px 40px;
+  min-width: 201px;
+  border-radius: 50px;
+  min-height: 55px;
+  color: #fff;
+  cursor: pointer;
+  backface-visibility: hidden;
+  transition: all .3s;
+
+  @media screen and (max-width: 768px) {
+    min-width: 170px;
+    margin: 15px 25px;
+  }
+
+  @media screen and (max-width: 576px) {
+    min-width: inherit;
+    margin: 0;
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 300px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &:focus {
+    outline: none!important;
+  }
+
+  @media screen and (min-width: 768px) {
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.button--blue {
+    background: repeating-linear-gradient(150deg, #ffb338 0%, #3e2904 52%, #ffb338 80%);
+    box-shadow: 0px 4px 30px #3e2904;
+
+    &:hover {
+      box-shadow: 0px 7px 30px #3e2904;
+    }
+  }
+
+  &.button--orange {
+    background: repeating-linear-gradient(150deg, #ffb338 0%, #3e2904 52%, #ffb338 80%);
+    box-shadow: 0px 4px 30px #3e2904;
+
+    &:hover {
+      box-shadow: 0px 7px 30px #3e2904;
+    }
+  }
+
+  &.button--gray {
+    box-shadow: none;
+    background: #dcdcdc;
+    color: #142029;
+  }
+}
+
+.profile-card-message {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 130px;
+  padding-bottom: 100px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all .3s;
+}
+
+.profile-card-form {
+  box-shadow: 0 4px 30px rgba(15, 22, 56, 0.35);
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  background: #fff;
+  border-radius: 10px;
+  padding: 35px;
+  transform: scale(.8);
+  position: relative;
+  z-index: 3;
+  transition: all .3s;
+
+  @media screen and (max-width: 768px) {
+    max-width: 90%;
+    height: auto;
+  }
+
+  @media screen and (max-width: 576px) {
+    padding: 20px;
+  }
+
+  &__bottom {
+    justify-content: space-between;
+    display: flex;
+
+    @media screen and (max-width: 576px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    resize: none;
+    height: 210px;
+    margin-bottom: 20px;
+    border: 2px solid #dcdcdc;
+    border-radius: 10px;
+    padding: 15px 20px;
+    color: #324e63;
+    font-weight: 500;
+    font-family: 'Quicksand', sans-serif;
+    outline: none;
+    transition: all .3s;
+
+    &:focus {
+      outline: none;
+      border-color: #8a979e;
+    }
+  }
+
+  &__overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: rgba(22, 33, 72, 0.35);
+    border-radius: 12px;
+    transition: all .3s;
+  }
+}
+
+.profile-edit{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#photo-input{
+    display: none;
+}
+
+#name-input{
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  color: white;
+  background-color: transparent;
+  border: none; /* Remove the border */
+  border-bottom: 1px solid #fff; /* Add a white bottom border */
+  border-radius: 3px;
+}
+
+#name-input::placeholder{
+    color: #fff;
+  }
+
+#camera-icon{
+    margin-bottom: 5%;
+    font-size: 28px;
+    background-image: repeating-linear-gradient(150deg, #ffb338 0%, #3e2904 100%, #ffb338 52%);
+    -webkit-background-clip: text; /* Clip the text to the background */
+    color: transparent; /* Make the text color transparent */
+}
+
+#photo-label-input{
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}

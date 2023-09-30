@@ -58,6 +58,11 @@ app.get("/dashboard", (req, res) => {
     res.render("dashboard")
 })
 
+/* Render Profile View */
+app.get("/profile", (req, res) => {
+    res.render("profile")
+})
+
 
 /* Post User to MongoDB Collection */
 app.post("/createUser", (req, res) => {

@@ -1,3 +1,5 @@
+import { userSignOut } from "./modules/firebase.js";
+import { navToHome, navToProfile } from "./modules/navigator.js";
 document.querySelector(".jsFilter").addEventListener("click", function () {
     document.querySelector(".filter-menu").classList.toggle("active");
   });
@@ -22,6 +24,15 @@ document.querySelector(".jsFilter").addEventListener("click", function () {
   addProjectButton.addEventListener('click', function () { 
    projectCreator.classList.toggle('active');
   });
+
+  $('#logout-icon').click(async function() {
+     await userSignOut();
+     navToHome();
+  })
+
+  $('#edit-icon').click(function() {
+    navToProfile();
+  })
 
 
   
