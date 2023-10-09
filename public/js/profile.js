@@ -1,3 +1,4 @@
+import { checkUser, getUserID } from "./modules/firebase.js";
 /* Demo purposes only */
 $(".hover").mouseleave(
     function () {
@@ -32,3 +33,18 @@ photoInput.addEventListener('change', function () {
     reader.readAsDataURL(selectedFile);
   }
 });
+
+$('#saveButton').click(function(){
+    checkInputs();
+})
+
+function checkInputs(){
+    if (profileName == ""){
+        alert("Please fill in your Name");
+    }
+}
+
+$('#cancelButton').click(function(){
+   const userId =  getUserID();
+   alert(userId);
+})

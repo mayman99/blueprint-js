@@ -73,3 +73,7 @@ export async function userSignOut(){
     await signOut(auth);
     console.log("logged out");
 }
+
+export function getUserID(){
+    return auth.currentUser.uid;
+}
