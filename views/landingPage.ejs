@@ -8,7 +8,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.8/typicons.min.css'>
-
+    <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
     <title>Blueprint JS - Floorplan</title>
 </head>
 
@@ -17,38 +17,110 @@
         <header>
             <div class="navBarContainer">
                         <a href="#" class="logo">
-                            SIDESIGN
+                            AI Archtect
                         </a>
                         <ul class="navLinks">
-                            <li>Home</li>
                             <li>About</li>
                             <li>Contact</li>
-                            <li class="getStartedButton">Get Started</li>
                         </ul>
             </div>
         </header>
         <section id="home-section">
             <div class="content">
-                <div class="mainContainer">
-                    <div class="mainInfo">
-                            <h1>The Future Of Interior Design</h1>
-                            <h2>Powered By Artificial Intelligence</h2>
-                            <hr class="devideInfo"/>
-                            <p>Unlock the power of AI to instantly create stunning interior home designs with just one click</p>
-                            <button class="getStartedButton">Try It!</button>
-                    </div>
-                    <div class="display">
-                        <img class="display-nft" src="../assets/Ben-Robots.jpg" alt="unsplash-OG44d93i-NJk" border="0">
-                        </div>
-                      </div>
+              <div class="bg-video-wrap">
+                <video src="../assets/proof_of_concept.mp4" loop muted autoplay>
+                </video>
+                <div class="overlay">
+                  <div class="video-overlay">
+                    <p class="hero-eyebrow">Zapier Early Access</p>
+                    <h1 class="hero-eyebrow-2">Calling all Builders—new products <span class="italic">await</span></h1>
+                    <button class="switch__button button switch-btn">Join The Early Access Program</button>
+                  </div>
                 </div>
+              </div>        
+              </div>
+        </section>
+
+        <section id="demos-section">
+          <div class="demos-container">
+            <div class="rowFirst">
+              <h1 class="demos-title">Create effortlessly using AI Prompt in 3D</h1>
+              <p class="demos-subtitle">Build faster with the help of AI. Watch your ideas come to life with simple prompts.</p>
+            </div>
+            <div class="row">
+              <div class="column">
+                <h1 class="grid-demos-title"> Create </h1>
+              <p class="grid-demos-subtitle">Snap a fully furntaured interior space into excistance from a simple 2D drawing.</p>
+              <div class="custom-input">
+                <input type="text" id="create-text" autofocus>
+              </div>
+              <button class="switch__button demos-button button">Join The Waitlist <i class="fas fa-arrow-right"></i></button>
+              </div>
+              <div class="column">
+                <div>
+                <video class="demos-video" src="../assets/proof_of_concept_cropped.mp4" loop muted autoplay></video>
+              </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="column">
+                <h1 class="grid-demos-title"> Brainstorm </h1>
+                <p class="grid-demos-subtitle">Get inspired by varius new designs with each click.</p>
+                <div class="custom-input">
+                  <input type="text" id="regen-text" autofocus>
+                </div>
+                <button class="switch__button demos-button button">Join The Waitlist <i class="fas fa-arrow-right"></i></button>  
+              </div>
+              <div class="column">
+                <video class="demos-video" src="../assets/proof_of_concept_cropped.mp4" loop muted autoplay></video>
+              </div>
+            </div>
+            <div class="row">
+              <div class="column">
+                <h1 class="grid-demos-title"> Edit </h1>
+              <p class="grid-demos-subtitle">Add, remove models.</p>
+              <div class="custom-input">
+                <input type="text" id="edit-text" placeholder="" autofocus>
+              </div>
+              <button class="switch__button demos-button button">Join The Waitlist <i class="fas fa-arrow-right"></i></button>  
+            </div>
+              <div class="column">
+                <video class="demos-video" src="../assets/proof_of_concept_cropped.mp4" loop muted autoplay></video>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="column">
+                <h1 class="grid-demos-title"> Style </h1>
+              <p class="grid-demos-subtitle">Experment with furnture of different styles, textures and colors.</p>
+              <div class="custom-input">
+                <input type="text" id="style-text" autofocus>
+              </div>
+              <button class="switch__button demos-button button">Join The Waitlist <i class="fas fa-arrow-right"></i></button>  
+            </div>
+              <div class="column">
+                <video class="demos-video" src="../assets/proof_of_concept_cropped.mp4" loop muted autoplay></video>
+              </div>
+            </div>
+            <div class="row">
+              <div class="column">
+                <h1 class="grid-demos-title"> Export </h1>
+              <p class="grid-demos-subtitle">Export your design to use with all your favorite tool.</p>
+              <div class="custom-input">
+                <input type="text" id="export-text" placeholder="" autofocus>
+              </div>
+              <button class="switch__button demos-button button">Join The Waitlist <i class="fas fa-arrow-right"></i></button>  
+            </div>
+              <div class="column">
+                <video class="demos-video" src="../assets/proof_of_concept_cropped.mp4" loop muted autoplay></video>
+              </div>
+            </div> -->
+          </div>
         </section>
         <section id="about-section">
             <div class="about-container">
               <div class="rowFirst">
-                <h1 class="about-title">About Us</h1>
-                <div class="block"></div>
-                <p class="about-desc">
+                <h1 class="demos-title">About Us</h1>
+                <p class="demos-subtitle">
                     At SIDESIGN, we're dedicated to revolutionizing the world of interior design. Our vision is to empower everyone with the ability to create stunning home designs effortlessly, thanks to the power of Artificial Intelligence.
                 </p>
               </div>
@@ -86,9 +158,8 @@
           <section id="contact-section">
             <div class="contact-container">
               <div class="rowFirst">
-                <h1 class="contact-title about-title">Contact Us</h1>
-                <div class="contact-block"></div>
-                <p class="contact-desc">
+                <h1 class="demos-title">Contact Us</h1>
+                <p class="demos-subtitle">
                   Have questions or feedback? We'd love to hear from you. Contact our team anytime, and we'll get back to you as soon as possible.
                 </p>
               </div>
@@ -107,7 +178,7 @@
                     <textarea id="message" name="message" required></textarea>
                   </div>
                   <div class="input-group">
-                    <button class="submitButton" type="submit">Submit</button>
+                    <button class="demos-button" type="submit">Submit</button>
                   </div>
                 </form>
               </div>
@@ -116,26 +187,7 @@
           <section class="footer-wrapper">
             <footer>
               <div class="footer-container">
-                <h3 class="footer-title">Blueprint</h3>
-        
-                <div class="footer-social">
-                  <h3 class="footer-follow-title">Follow Us</h3>
-                  <div class="footer-social-icons">
-                    <div class="icons-holder">
-                      <i class="fab fa-facebook icons"></i>
-                    </div>
-                    <div class="icons-holder">
-                      <i class="fab fa-instagram icons"></i>
-                    </div>
-                    <div class="icons-holder">
-                      <i class="fab fa-linkedin icons"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="footer-contact">
-                  <h3 class="footer-call-title">Call Us</h3>
-                  <h3 class="number-phone">+91 12345678978</h3>
-                </div>
+                <h3 class="footer-title"></h3>
               </div>
         
               <div class="footer-bottom-section">

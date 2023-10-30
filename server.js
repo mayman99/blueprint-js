@@ -34,6 +34,11 @@ const server = http.createServer(app, (req,res) => {
 })
 .listen(process.env.PORT, () => console.log("Server is Running"));
 
+// Render early access page
+app.get("/early-access", (req, res) => {
+    res.render("early-access")
+})
+
 /* Render LandingPage */
 app.get("/", (req, res) => {
     res.render("landingPage")
@@ -43,4 +48,7 @@ app.get("/registration", (req, res) => {
     res.render("registration")
 })
 
+app.get("/editor", (req, res) => {
+    res.render("editor")
+})
 

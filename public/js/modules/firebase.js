@@ -1,7 +1,10 @@
-import {FBKEY, FBDOMAIN, FBPROJID, FBSTORAGEB, FBMESSAGESENDERID, FBAPPID, FBMEASURMENTID} from "../utils/constants.js";
+import {FBKEY, FBDOMAIN, DATABASEURL, FBPROJID, FBSTORAGEB, FBMESSAGESENDERID, FBAPPID, FBMEASURMENTID} from "../utils/constants.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";// Your web app's Firebase configuration
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
+
+
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: FBKEY,
@@ -10,7 +13,8 @@ const firebaseConfig = {
   storageBucket: FBSTORAGEB,
   messagingSenderId: FBMESSAGESENDERID,
   appId: FBAPPID,
-  measurementId: FBMEASURMENTID
+  measurementId: FBMEASURMENTID,
+  databaseURL: DATABASEURL
 };
 
 // Initialize Firebase
@@ -37,6 +41,21 @@ export async function signUP(email, password){
             alert("Something Went Wrong");
         }
     })
+}
+
+export async function signUPMailingList(email, name){
+    console.log("before Adding to mailing list");
+    const db = getDatabase();
+    await set(ref(db, '/users/' + email.split('@')[0]), {
+        name: name,
+        email: email
+    }).then(() => {
+        console.log(" Data saved successfully!")
+      })
+      .catch((error) => {
+        console.error(error)
+      });
+    console.log("Added to mailing list");
 }
 
 export async function signIn(email, password){

@@ -180,7 +180,7 @@ export class Dimensioning {
             case dimMeter:
             default:
                 var m = Math.round(decimals * (cm * Math.pow(0.01, power))) / decimals;
-                return '' + m + 'm';
+                return '' + m/4 + 'm';
         }
     }
 }

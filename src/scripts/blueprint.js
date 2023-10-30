@@ -134,7 +134,7 @@ class BlueprintJS {
         document.getElementById("3d_draw_buttons_list").style.visibility = "visible";//
         document.getElementById("send_points_div").style.visibility = "visible";//
 
-        document.getElementById("current_subtitle").textContent = "Adding doors and windowsto design";
+        // document.getElementById("current_subtitle").textContent = "Adding doors and windowsto design";
 
         document.getElementById(this.options.viewer2d.id).style.visibility = "hidden";//
         document.getElementById(this.options.viewer3d.id).style.visibility = "visible";//"hidden";//
