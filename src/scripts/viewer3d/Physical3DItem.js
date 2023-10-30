@@ -5,6 +5,8 @@ import {
     SpotLight, PointLight, SpotLightHelper,TextureLoader,RepeatWrapping,MeshPhongMaterial, Plane, CompressedPixelFormat
 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+
 import { EVENT_ITEM_LOADED, EVENT_ITEM_LOADING, EVENT_UPDATED, EVENT_PARAMETRIC_GEOMETRY_UPATED, EVENT_ITEM_REMOVED } from "../core/events";
 import { Utils } from "../core/utils"
 import { BoxGeometry, LineBasicMaterial, LineSegments, EdgesGeometry, ObjectLoader } from "three";
@@ -89,8 +91,10 @@ export class Physical3DItem extends Mesh {
         this.__customIntersectionPlanes = []; // Useful for intersecting only wall planes, only floorplanes, only ceiling planes etc
         this.configurationHelper = new ConfigurationHelper();
         this.__gltfLoader = new GLTFLoader();
+        this.__objLoader = new OBJLoader();
         this.__gltfLoadingProgressEvent = this.__gltfLoadingProgress.bind(this);
         this.__gltfLoadedEvent = this.__gltfLoaded.bind(this);
+        this.__objLoadedEvent = this.__objLoaded.bind(this);
         this.__itemUpdatedEvent = this.__itemUpdated.bind(this);
         this.__parametricGeometryUpdateEvent = this.__parametricGeometryUpdate.bind(this);
         this.__disposeEvent = this.dispose.bind(this);
@@ -226,7 +230,19 @@ export class Physical3DItem extends Mesh {
         if (this.__loadedItem) {
             this.remove(this.__loadedItem);
         }
+        if (this.__itemModel.modelURL.endsWith('.glb')) {
+            this.__loadGLTFModel();
+        } else if (this.__itemModel.modelURL.endsWith('.obj')) {
+            this.__loadOBJModel();
+        }
+    }
+
+    __loadGLTFModel() {
         this.__gltfLoader.load(this.__itemModel.modelURL, this.__gltfLoadedEvent, this.__gltfLoadingProgressEvent);
+    }
+
+    __loadOBJModel() {
+        this.__objLoader.load(this.__itemModel.modelURL, this.__objLoadedEvent, this.__gltfLoadingProgressEvent);
     }
 
     // Function - Add the textures to the models
@@ -253,9 +269,42 @@ export class Physical3DItem extends Mesh {
 
 
     __gltfLoaded(gltfModel) {
-
         this.__itemModelglb = gltfModel;
         this.__loadedItem = gltfModel.scene;
+        this.__loadedItem.castShadow = this.__shadowVisible;
+        this.__loadedItem.receiveShadow = this.__shadowVisible;
+        this.__loadedItem.traverse((child) => {
+            if (child.isMesh) {
+                child.castShadow = this.__shadowVisible;
+                child.receiveShadow = true;            
+            }
+            if (child.material) {
+                let materials = (child.material.length) ? child.materials : [child.material];
+                materials.forEach((material) => {
+                    if(material.map){
+                        material.map.encoding = sRGBEncoding;
+                        material.map.anisotropy = 16;
+                    }
+                    if(material.opacity < 1.0-1e-6){
+                        material.transparent = true;
+                        child.castShadow = false;
+                    }
+                });
+            }
+            
+        });
+
+        this.__initialMaterial();
+        this.__initializeChildItem();
+       
+        this.dispatchEvent({ type: EVENT_ITEM_LOADED });
+    }
+
+    __objLoaded(objModel) {
+        console.log(objModel)
+        this.__itemModelglb = objModel;
+        this.__loadedItem = objModel;
+        this.__loadedItem.scale.set(100, 100, 100);
         this.__loadedItem.castShadow = this.__shadowVisible;
         this.__loadedItem.receiveShadow = this.__shadowVisible;
         this.__loadedItem.traverse((child) => {

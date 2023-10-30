@@ -44,9 +44,9 @@ export class Item extends EventDispatcher {
          */
         this.__combinedRotation = new Vector3();
 
-        this.__scale = new Vector3(1, 1, 1);
+        this.__scale = new Vector3(100, 100, 100);
 
-        this.__size = new Vector3(1, 1, 1);
+        this.__size = new Vector3(100, 100, 100);
         this.__mesh = [];
         this.__textures = [];
         this.__halfSize = new Vector3(1, 1, 1);

@@ -5,22 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Indie Flower' rel='stylesheet'>
-
-    <title>Blueprint JS - Floorplan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>No more - AI Interior design</title>
 </head>
 
 <body>
     <div class="tile">
         <div class="tile is-1 is-parent" id="left_tile">
-            <div class="tile is-child">
-                <article class="tile is-child notification is-success">
-                    <div class="content">
-                        <div class="block">
-                            <div class="button is-info" id="back" style="position: absolute; top: 50%; transform: translateY(-50%)">Back</div>
-                        
-                        </div>
-                    </div>
-                </article>
+            <div id="2d_draw_buttons_list" class="block">
+                <ul style="position: relative; top: 50%; transform: translateY(-50%)">
+                    <li><button class="button is-primary" id="draw_mode">Draw</button></li>
+                    <li><button class="button is-primary" id="doors-windows-button">Add doors</button></li>
+                    <li><button class="button is-info" id="reset-button">Reset</button></li>
+                </ul>
+            </div>
+            <div class="block" id="3d_draw_buttons_list" style="visibility: hidden; position: absolute; top: 50%; transform: translateY(-50%)">
+                <ul style="position: absolute; top: 50%; transform: translateY(-50%)">
+                    <li><button class="button is-primary" id="draw_2d_mode">Draw walls</button></li>
+                    <li><button class="button is-primary" id="add-window-button">Add a window</button></li>
+                    <li><button class="button is-primary" id="add-door-button">Add a door</button></li>
+                    <li><button class="button is-info" id="back">Back</button></li>
+                </ul>
+            </div>
+            <div class="block" style="position: absolute; top: 50%; transform: translateY(-50%)" id="3d_view_buttons_list">
+                <ul>
+                    <li><button style="font-size:42px;color:green; visibility: hidden;" id="prev_scene"><i class="fa fa-angle-double-left"></i></button></li>
+                </ul>
             </div>
         </div>
         <div class="tile is-parent" id="main_tile">
@@ -29,7 +39,7 @@
                     <div class="content">
                         <div id="title">
                             <h1 class="title">
-                                Blueprint JS - Floorplan
+                                No more - AI Interior design
                             </h1>
                             <p class="subtitle">
                                 Drawing a Bedroom floorplan
@@ -40,28 +50,6 @@
                                 <div id="bp3djs-viewer2d"></div>
                                 <div id="bp3djs-viewer3d"></div>
                             </div>
-                            <div id="2d_draw_buttons_list" class="block" >
-                                <ul>
-                                    <li><button class="button is-primary" id="draw_mode">Draw</button></li>
-                                    <!-- <li><button class="button is-primary" id="move_mode">Move</button></li> -->
-                                    <li><button class="button is-primary" id="doors-windows-button">Draw doors or windows</button></li>
-                                    <li><button class="button is-info" id="reset-button">Reset</button></li>
-                                </ul>
-                            </div>
-                            <div class="block" id="3d_draw_buttons_list" style="visibility: hidden;">
-                                <ul>
-                                    <li><button class="button is-primary" id="draw_2d_mode">Draw walls</button></li>
-                                    <li><button class="button is-primary" id="add-window-button" >Add a window</button></li>
-                                    <li><button class="button is-primary" id="add-door-button" >Add a door</button></li>
-                                    <li><button class="button is-info" id="reset-button">Reset</button></li>
-                                </ul>
-                            </div>
-                            <div class="block" style="visibility: hidden;" id="3d_view_buttons_list">
-                                <ol>
-                                    <li><button class="button is-primary" id="prev_scene">Prev Generation</button></li>
-                                    <li><button class="button is-primary" id="next_scene">Next Generation</button></li>
-                                </ol>
-                            </div>
                             <div class="loader" id="loader" style="visibility: hidden"></div>
                         </div>
                 </div></article>
@@ -69,16 +57,17 @@
         </div>
         <div class="tile is-1 is-parent" id="right_tile">
             <div class="tile is-child is-primary">
-                <article class="tile is-child notification is-success">
                     <div id="right_tile_div" class="content">
                         <div class="block" id="draw_3d_mode_div">
                             <div class="button is-primary" id="draw_3d_mode" style="position: absolute; top: 50%; transform: translateY(-50%)">Next</div>
                         </div>
-                        <div class="block" id="send_points_div" style="visibility: hidden;">
+                        <div class="block" id="view_generations">
+                            <button style="color:green; position: absolute; top: 50%; transform: translateY(-50%); font-size:42px; visibility: hidden" id="next_scene"><i class="fa fa-angle-double-right"></i></button>
+                        </div>
+                        <div class="block" id="send_points_div" style="visibility: hidden">
                             <button class="button is-primary" id="send-points" style="position: absolute; top: 50%; transform: translateY(-50%)">Generate</button>
                         </div>
                     </div>
-                </article>
             </div>
         </div>
     </div>

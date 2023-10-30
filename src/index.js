@@ -167,6 +167,7 @@ let app_parent = document.getElementById('bp3d-js-app');
 let send_points = document.getElementById('send-points');
 let next_scene = document.getElementById('next_scene');
 let prev_scene = document.getElementById('prev_scene');
+let draw_3d_mode_div = document.getElementById('draw_3d_mode_div');
 let draw_3d_mode = document.getElementById('draw_3d_mode');
 let draw_2d_mode = document.getElementById('draw_2d_mode');
 let add_door_button = document.getElementById('add-door-button');
@@ -181,7 +182,7 @@ const send_points_div = document.getElementById("send_points_div");
 const current_subtitle = document.getElementById("current_subtitle");
 // let move_mode = document.getElementById('move_mode');
 
-prev_scene.disabled = true;
+// prev_scene.disabled = true;
 
 // move_mode.onclick = function() {
 //     blueprint3d.setViewer2DModeToMove();
@@ -492,9 +493,12 @@ send_points.onclick = function() {
             _2d_draw_buttons_list.style.visibility = "hidden";
             _3d_draw_buttons_list.style.visibility = "hidden";
             send_points_div.style.visibility = "hidden";
-            current_subtitle.textContent = "Generated Scene 1/" + generated_scenes.length;
 
+            // show 3d view buttons
+            next_scene.style.visibility = "visible";
+            prev_scene.style.visibility = "visible";
             _3d_view_buttons_list.style.visibility = "visible";
+            draw_3d_mode_div.style.visibility = "hidden";
         })
         .catch(error => {
             console.error('Error:', error);
@@ -959,18 +963,18 @@ if (!opts.widget) {
     settingsSelectedRoom.bindText('roomName', floorplanningHelper.roomName, floorplanningHelper);
 
     settingsSelectedRoom3D.addDropDown('Floor Textures', floor_texture_keys, selectFloorTexture);
-    settingsSelectedRoom3D.addImage('Floor Texture:', floor_textures[floor_texture_keys[0]].colormap || TEXTURE_NO_PREVIEW, null);
-    settingsSelectedRoom3D.addColor('Floor Texture Color:', floor_textures[floor_texture_keys[0]].color || '#FFFFFF', selectFloorTextureColor);
+    settingsSelectedRoom3D.addImage('Floor Texture:', floor_textures[floor_texture_keys[1]].colormap || TEXTURE_NO_PREVIEW, null);
+    settingsSelectedRoom3D.addColor('Floor Texture Color:', floor_textures[floor_texture_keys[1]].color || '#FFFFFF', selectFloorTextureColor);
     settingsSelectedRoom3D.addButton('Apply', selectFloorTexture);
 
     settingsSelectedRoom3D.addDropDown('All Wall Textures', wall_texture_keys, selectWallTexture);
-    settingsSelectedRoom3D.addImage('All Wall Texture:', wall_textures[wall_texture_keys[0]].colormap || TEXTURE_NO_PREVIEW, selectWallTexture);
-    settingsSelectedRoom3D.addColor('All Wall Texture Color:', wall_textures[wall_texture_keys[0]].color || '#FFFFFF', selectWallTextureColor);
+    settingsSelectedRoom3D.addImage('All Wall Texture:', wall_textures[wall_texture_keys[1]].colormap || TEXTURE_NO_PREVIEW, selectWallTexture);
+    settingsSelectedRoom3D.addColor('All Wall Texture Color:', wall_textures[wall_texture_keys[1]].color || '#FFFFFF', selectWallTextureColor);
     settingsSelectedRoom3D.addButton('Apply', selectWallTexture);
 
     settingsSelectedWall3D.addDropDown('Wall Textures', wall_texture_keys, selectWallTexture);
-    settingsSelectedWall3D.addImage('Wall Texture:', wall_textures[wall_texture_keys[0]].colormap || TEXTURE_NO_PREVIEW, null);
-    settingsSelectedWall3D.addColor('Wall Texture Color:', wall_textures[wall_texture_keys[0]].color || '#FFFFFF', selectWallTextureColor);
+    settingsSelectedWall3D.addImage('Wall Texture:', wall_textures[wall_texture_keys[1]].colormap || TEXTURE_NO_PREVIEW, null);
+    settingsSelectedWall3D.addColor('Wall Texture Color:', wall_textures[wall_texture_keys[1]].color || '#FFFFFF', selectWallTextureColor);
     settingsSelectedWall3D.addButton('Apply', selectWallTexture);
 
     settingsSelectedWall3D.addDropDown('Select Door', doorTypes, selectDoorForWall);

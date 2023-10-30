@@ -121,7 +121,7 @@ class BlueprintJS {
         document.getElementById("3d_draw_buttons_list").style.visibility = "hidden";//
         document.getElementById("send_points_div").style.visibility = "hidden";//
 
-        document.getElementById("current_subtitle").textContent = "Drawing a Bedroom floorplan";
+        // document.getElementById("current_subtitle").textContent = "Drawing a Bedroom floorplan";
 
         document.getElementById(this.options.viewer2d.id).style.visibility = "visible";
         document.getElementById(this.options.viewer3d.id).style.visibility = "hidden";
