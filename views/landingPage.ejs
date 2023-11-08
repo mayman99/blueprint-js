@@ -2,90 +2,102 @@
 <html>
 
 <head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1P7S2X04DV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1P7S2X04DV');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Indie Flower' rel='stylesheet'>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.8/typicons.min.css'>
     <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
-    <title>Blueprint JS - Floorplan</title>
+    <title>Designfast</title>
 </head>
+
 
 <body>
     <div class="landing-page">
         <header>
             <div class="navBarContainer">
                         <a href="#" class="logo">
-                            AI Archtect
+                            Designfast
                         </a>
                         <ul class="navLinks">
-                            <li>About</li>
-                            <li>Contact</li>
+                            <li id="contactNav">Contact</li>
                         </ul>
             </div>
         </header>
         <section id="home-section">
-            <div class="content">
               <div class="bg-video-wrap">
-                <video src="../assets/proof_of_concept.mp4" loop muted autoplay>
+                <video src="https://raw.githubusercontent.com/mayman99/blueprint-js/email_list_landing_page/public/assets/intro.mp4" loop muted autoplay>
+                <!-- <video src="../assets/intro_2.mp4" loop autoplay mute> -->
                 </video>
-                <div class="overlay">
-                  <div class="video-overlay">
-                    <p class="hero-eyebrow">Zapier Early Access</p>
-                    <h1 class="hero-eyebrow-2">Calling all Builders—new products <span class="italic">await</span></h1>
-                    <button class="switch__button button switch-btn">Join The Early Access Program</button>
-                  </div>
+                <div class="video-overlay">
+                  <p class="hero-eyebrow">Designfast Early Access</p>
+                  <h1 class="hero-eyebrow-2">Calling 3D content <span class="italic">creators</span></h1>
+                  <button class="switch__button button switch-btn" id="earlyAccessButton">Join The Early Access Program</button>
                 </div>
-              </div>        
               </div>
         </section>
 
         <section id="demos-section">
           <div class="demos-container">
             <div class="rowFirst">
-              <h1 class="demos-title">Create effortlessly using AI Prompt in 3D</h1>
-              <p class="demos-subtitle">Build faster with the help of AI. Watch your ideas come to life with simple prompts.</p>
+              <h1 class="demos-title">Create effortlessly using AI in 3D</h1>
+              <p class="demos-subtitle">Design fast with the help of an AI specialized in interior design.</p>
             </div>
             <div class="row">
               <div class="column">
                 <h1 class="grid-demos-title"> Create </h1>
-              <p class="grid-demos-subtitle">Snap a fully furntaured interior space into excistance from a simple 2D drawing.</p>
+              <p class="grid-demos-subtitle">Snap a fully furnitured interior space into existence from a simple 2D drawing.</p>
               <div class="custom-input">
-                <input type="text" id="create-text" autofocus>
+                <input type="text" id="create-text">
               </div>
-              <button class="switch__button demos-button button">Join The Waitlist <i class="fas fa-arrow-right"></i></button>
+              <button class="switch__button demos-button button" id="joinWaitList1">Join The Waitlist <i class="fas fa-arrow-right"></i></button>
               </div>
               <div class="column">
-                <div>
-                <video class="demos-video" src="../assets/proof_of_concept_cropped.mp4" loop muted autoplay></video>
-              </div>
+                <!-- <video class="demos-video" src="../assets/v1.mp4" loop muted autoplay></video> -->
+                <!-- <spline-viewer hint loading-anim url="https://raw.githubusercontent.com/mayman99/blueprint-js/email_list_landing_page/public/assets/lv_1_5.spline"></spline-viewer> -->
+                <video class="demos-video" src="https://raw.githubusercontent.com/mayman99/blueprint-js/email_list_landing_page/public/assets/v1.mp4" loop muted autoplay></video>
               </div>
             </div>
             <div class="row">
               <div class="column">
                 <h1 class="grid-demos-title"> Brainstorm </h1>
-                <p class="grid-demos-subtitle">Get inspired by varius new designs with each click.</p>
+                <p class="grid-demos-subtitle">Get inspired by various new designs with each click.</p>
                 <div class="custom-input">
-                  <input type="text" id="regen-text" autofocus>
+                  <input type="text" id="regen-text">
                 </div>
-                <button class="switch__button demos-button button">Join The Waitlist <i class="fas fa-arrow-right"></i></button>  
+                <button class="switch__button demos-button button" id="joinWaitList2">Join The Waitlist <i class="fas fa-arrow-right"></i></button>  
               </div>
               <div class="column">
-                <video class="demos-video" src="../assets/proof_of_concept_cropped.mp4" loop muted autoplay></video>
+                <!-- <spline-viewer hint loading-anim url="../assets/camera_notvstand.spline"></spline-viewer> -->
+                <!-- <spline-viewer hint loading-anim url="https://raw.githubusercontent.com/mayman99/blueprint-js/email_list_landing_page/public/assets/lv_2.spline"></spline-viewer> -->
+                <video class="demos-video" src="https://raw.githubusercontent.com/mayman99/blueprint-js/email_list_landing_page/public/assets/v2.mp4" loop muted autoplay></video>
+                <!-- <video class="demos-video" src="../assets/v2.mp4" loop muted autoplay></video> -->
               </div>
             </div>
             <div class="row">
               <div class="column">
                 <h1 class="grid-demos-title"> Edit </h1>
-              <p class="grid-demos-subtitle">Add, remove models.</p>
+              <p class="grid-demos-subtitle">Our AI can also add things to already generated scenes.</p>
               <div class="custom-input">
-                <input type="text" id="edit-text" placeholder="" autofocus>
+                <input type="text" id="edit-text" placeholder="">
               </div>
-              <button class="switch__button demos-button button">Join The Waitlist <i class="fas fa-arrow-right"></i></button>  
+              <button class="switch__button demos-button button " id="joinWaitList3">Join The Waitlist <i class="fas fa-arrow-right"></i></button>  
             </div>
               <div class="column">
-                <video class="demos-video" src="../assets/proof_of_concept_cropped.mp4" loop muted autoplay></video>
+                <video class="demos-video" src="https://raw.githubusercontent.com/mayman99/blueprint-js/email_list_landing_page/public/assets/v3.mp4" loop muted autoplay></video>
+                <!-- <spline-viewer hint loading-anim url="https://raw.githubusercontent.com/mayman99/blueprint-js/email_list_landing_page/public/assets/lv_3_3.spline"></spline-viewer> -->
+                <!-- <video class="demos-video" src="../assets/v3.mp4" loop muted autoplay></video> -->
+             
               </div>
             </div>
             <!-- <div class="row">
@@ -116,7 +128,7 @@
             </div> -->
           </div>
         </section>
-        <section id="about-section">
+        <!-- <section id="about-section">
             <div class="about-container">
               <div class="rowFirst">
                 <h1 class="demos-title">About Us</h1>
@@ -153,22 +165,19 @@
                 </div>
               </div>
             </div>
-          </section>
+          </section> -->
 
-          <section id="contact-section">
+          <!-- <section id="contact-section">
+            <a name="contact">
             <div class="contact-container">
               <div class="rowFirst">
                 <h1 class="demos-title">Contact Us</h1>
                 <p class="demos-subtitle">
-                  Have questions or feedback? We'd love to hear from you. Contact our team anytime, and we'll get back to you as soon as possible.
+                  Have questions or feedback? We'd love to hear from you.
                 </p>
               </div>
               <div class="contact-form">
                 <form id="contact-form">
-                  <div class="input-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
-                  </div>
                   <div class="input-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" required>
@@ -183,7 +192,8 @@
                 </form>
               </div>
             </div>
-          </section>
+            </a>
+          </section> -->
           <section class="footer-wrapper">
             <footer>
               <div class="footer-container">
@@ -192,15 +202,6 @@
         
               <div class="footer-bottom-section">
                 <hr class="footer-divider">
-                <div class="footer-bottom-grid">
-                  <p class="footer-bottom-text">
-                    Blueprint. All Rights Reserved
-                  </p>
-                  <div>
-                    <p class="footer-bottom-text">PRIVACY POLICY</p>
-                    <p class="footer-bottom-text">TERMS & CONDITIONS</p>
-                  </div>
-                </div>
               </div>
             </footer>
           </section>

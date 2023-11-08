@@ -1,8 +1,4 @@
-import { navToRegistration } from "./modules/navigator.js";
-
-$('.getStartedButton').click(function() {
- navToRegistration();
-});
+import { navToRegistration, navToEarlyAccess } from "./modules/navigator.js";
 
 const createElement = document.getElementById("create-text");
 const editElement = document.getElementById("edit-text");
@@ -10,22 +6,45 @@ const regenElement = document.getElementById("regen-text");
 const styleElement = document.getElementById("style-text");
 const exportElement = document.getElementById("export-text");
 
+const earlyAccessButton = document.getElementById("earlyAccessButton");
+const contactNav = document.getElementById("contactNav");
+const joinWaitList1 = document.getElementById("joinWaitList1");
+const joinWaitList2 = document.getElementById("joinWaitList2");
+const joinWaitList3 = document.getElementById("joinWaitList3");
+
+joinWaitList1.onclick = () => {
+    window.location.href = "/early-access";
+    navToEarlyAccess();
+}
+joinWaitList2.onclick = () => {
+    window.location.href = "/early-access";
+    navToEarlyAccess();
+}
+joinWaitList3.onclick = () => {
+    window.location.href = "/early-access";
+    navToEarlyAccess();
+}
+contactNav.onclick = () => {
+    window.location.href = "/early-access";
+}
+earlyAccessButton.onclick = () => {
+    window.location.href = "/early-access";
+    navToEarlyAccess();
+};
 
 const inputElements = [
-    createElement, editElement, regenElement, styleElement, exportElement
+    createElement, regenElement, editElement, styleElement, exportElement
 ];
 
 const textsToType = [
-    "Create a bedroom",
-    "Add a dinning table set and a tv-stand",
+    "Create a Livingroom",
     "Generate a new design",
-    "add a tv stand",
-    "change the room to have a japanese style"
+    "Add a TV-Stand"
 ];
 
-const typingStates = [true, true, true, true];
-const currentTexts = ["", "", "", ""];
-const currentIndexes = [0, 0, 0, 0];
+const typingStates = [true, true, true];
+const currentTexts = ["", "", ""];
+const currentIndexes = [0, 0, 0];
 
 function typeAndDelete(index) {
     if (typingStates[index]) {
